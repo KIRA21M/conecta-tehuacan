@@ -56,7 +56,7 @@ Para garantizar que la plataforma sea escalable y capaz de manejar la interacci�
 * **Geolocalización:** Implementación de filtros de cercanía y ubicación específicos para la región de Tehuacán.
   
  ## ☁️ Hosting y Servicios
-* *Servidor:* Despliegue del backend en contenedores *Docker* (servidores VPS o Kubernetes) para facilitar la escalabilidad. También se consideran servicios PaaS como Heroku, Render o Fly.io
+* *servidor:* Despliegue del backend en contenedores *Docker* (servidores VPS o Kubernetes) para facilitar la escalabilidad. También se consideran servicios PaaS como Heroku, Render o Fly.io
   
 *Almacenamiento:* Uso de servicios en la nube como AWS S3, Google Cloud Storage o DigitalOcean Spaces para archivos (CVs en PDF e imágenes)
 
