@@ -54,8 +54,10 @@ Para garantizar que la plataforma sea escalable y capaz de manejar la interacci�
 * **MySQL / PostgreSQL:** Sistemas relacionales para el manejo de datos estructurados como empresas, usuarios y vacantes.
 * **Prisma / TypeORM:** Uso de ORMs para abstraer la base de datos, facilitar las migraciones y mejorar la mantenibilidad del código.
 * **Geolocalización:** Implementación de filtros de cercanía y ubicación específicos para la región de Tehuacán.
-
-  ## ☁️ Hosting y Servicios
+  
+ ## ☁️ Hosting y Servicios
 * *Servidor:* Despliegue del backend en contenedores *Docker* (servidores VPS o Kubernetes) para facilitar la escalabilidad. También se consideran servicios PaaS como Heroku, Render o Fly.io
+  
 *Almacenamiento:* Uso de servicios en la nube como AWS S3, Google Cloud Storage o DigitalOcean Spaces para archivos (CVs en PDF e imágenes)
+
 *Notificaciones:* Integración con SendGrid o Mailgun para correos y, en fases posteriores, notificaciones push
