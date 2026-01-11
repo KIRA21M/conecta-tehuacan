@@ -37,18 +37,18 @@ pagos para ofertas destacadas).
 
 ## 🛠️ Stack Tecnológico
 
-[cite_start]Para garantizar que la plataforma sea escalable y capaz de manejar la interacción bidireccional requerida, se ha seleccionado el siguiente stack tecnológico[cite: 15, 18]:
+Para garantizar que la plataforma sea escalable y capaz de manejar la interacción bidireccional requerida, se ha seleccionado el siguiente stack tecnológico:
 
 ### Frontend (Lado del Cliente)
-* [cite_start]**React:** Se utiliza esta biblioteca declarativa y eficiente para construir interfaces de usuario basadas en piezas individuales llamadas componentes[cite: 20, 21].
-* [cite_start]**Interactividad:** Facilita la actualización de la interfaz en tiempo real en respuesta a las acciones del usuario, como la búsqueda de vacantes[cite: 23, 24].
-* [cite_start]**Herramientas:** Se propone el uso de **Vite** para un desarrollo ágil, junto con bibliotecas como **Zustand** o **Redux** para la gestión de estados complejos[cite: 25, 27].
+* **React:** Se utiliza esta biblioteca declarativa y eficiente para construir interfaces de usuario basadas en piezas individuales llamadas componentes.
+* **Interactividad:** Facilita la actualización de la interfaz en tiempo real en respuesta a las acciones del usuario, como la búsqueda de vacantes.
+* **Herramientas:** El uso de **Vite** para un desarrollo ágil, junto con bibliotecas como **Zustand** o **Redux** para la gestión de estados complejos.
 
 ### Backend (Lado del Servidor)
-* [cite_start]**Node.js con Express/NestJS:** Proporciona un entorno de ejecución orientado a eventos diseñado para aplicaciones de red escalables[cite: 29, 30].
-* [cite_start]**Manejo de Conexiones:** Es ideal para gestionar múltiples conexiones concurrentes sin bloqueo, lo cual es fundamental para una plataforma con flujo constante de usuarios y vacantes[cite: 31, 32].
-* [cite_start]**Lógica de Negocio:** El servidor se encarga de las rutas API, la gestión de autenticación, la seguridad y la comunicación con la base de datos[cite: 34, 51].
+* **Node.js con Express/NestJS:** Proporciona un entorno de ejecución orientado a eventos diseñado para aplicaciones de red escalables.
+* **Manejo de Conexiones:** Es ideal para gestionar múltiples conexiones concurrentes sin bloqueo, lo cual es fundamental para una plataforma con flujo constante de usuarios y vacantes.
+* **Lógica de Negocio:** El servidor se encarga de las rutas API, la gestión de autenticación, la seguridad y la comunicación con la base de datos.
 
 ### Base de Datos
-* [cite_start]**MySQLL:** Se recomienda este sistema relacional por su capacidad para manejar datos estructurados (usuarios, empresas, postulaciones) y su soporte para consultas complejas[cite: 36, 37, 39].
-* [cite_start]**Geolocalización:** Permite el uso de extensiones como **PostGIS** para implementar filtros de cercanía y ubicación específicos para la región de Tehuacán[cite: 16, 40].
+* **MySQL:** Se seleccionó este sistema relacional para manejar datos estructurados (usuarios, empresas, postulaciones) y su soporte para consultas complejas.
+* **Geolocalización:** Permite implementar filtros de cercanía y ubicación específicos para la región de Tehuacán.
