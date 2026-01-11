@@ -34,24 +34,23 @@ aprovechar el uso de geolocalización y filtros de cercanía; el web app podrá
 escalar para incluir empresas de distintos tamaños, gestionar grandes volúmenes 
 de vacantes y usuarios y, en un futuro, integrar servicios adicionales (por ejemplo 
 pagos para ofertas destacadas). 
-
 ## 🛠️ Stack Tecnológico
 
 Para garantizar que la plataforma sea escalable y capaz de manejar la interacción bidireccional requerida, se ha seleccionado el siguiente stack tecnológico:
 
 ### Frontend (Lado del Cliente)
-**React:** Biblioteca declarativa y eficiente para construir interfaces de usuario basadas en componentes reutilizables.
-**Vite:** Herramienta de construcción para un entorno de desarrollo ágil y rápido[cite: 27].
-**Next.js:** Framework complementario para optimizar el rendimiento mediante renderizado del lado del servidor (SSR) y rutas dinámicas.
-**Gestión de Estados:** Uso de bibliotecas maduras como **Redux** o **Zustand** para manejar la complejidad de los datos en el cliente.
-**Interactividad:** Actualización de la interfaz en tiempo real en respuesta a las acciones del usuario, como búsquedas y postulaciones.
+* **React:** Biblioteca declarativa y eficiente para construir interfaces de usuario basadas en componentes reutilizables.
+* **Vite:** Herramienta de construcción para un entorno de desarrollo ágil y rápido.
+* **Next.js:** Framework complementario para optimizar el rendimiento mediante renderizado del lado del servidor (SSR) y rutas dinámicas.
+* **Gestión de Estados:** Uso de bibliotecas maduras como **Redux** o **Zustand** para manejar la complejidad de los datos en el cliente.
+* **Interactividad:** Actualización de la interfaz en tiempo real en respuesta a las acciones del usuario, como búsquedas y postulaciones.
 
 ### Backend (Lado del Servidor)
-**Node.js:** Entorno de ejecución de JavaScript orientado a eventos, diseñado para aplicaciones de red escalables y conexiones concurrentes
-**Express / NestJS:** Frameworks para la creación rápida de rutas API (Express) o para implementar una arquitectura modular y estructurada .
-**Lógica de Negocio:** Gestión de autenticación, seguridad, APIs HTTP y comunicación fluida con la base de datos.
+* **Node.js:** Entorno de ejecución de JavaScript orientado a eventos, diseñado para aplicaciones de red escalables y conexiones concurrentes.
+* **Express / NestJS:** Frameworks para la creación rápida de rutas API (Express) o para implementar una arquitectura modular y estructurada.
+* **Lógica de Negocio:** Gestión de autenticación, seguridad, APIs HTTP y comunicación fluida con la base de datos.
 
 ### Base de Datos y Persistencia
-**MySQL / PostgreSQL:** Sistemas relacionales para el manejo de datos estructurados como empresas, usuarios y vacantes.
-**Prisma / TypeORM:** Uso de ORMs para abstraer la base de datos, facilitar las migraciones y mejorar la mantenibilidad del código
-**Geolocalización:** Implementación de filtros de cercanía y ubicación específicos para la región de Tehuacán (utilizando extensiones como PostGIS si se requiere).
+* **MySQL / PostgreSQL:** Sistemas relacionales para el manejo de datos estructurados como empresas, usuarios y vacantes.
+* **Prisma / TypeORM:** Uso de ORMs para abstraer la base de datos, facilitar las migraciones y mejorar la mantenibilidad del código.
+* **Geolocalización:** Implementación de filtros de cercanía y ubicación específicos para la región de Tehuacán.
