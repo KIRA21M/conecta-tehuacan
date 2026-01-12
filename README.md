@@ -38,7 +38,7 @@ Para garantizar que la plataforma sea escalable y capaz de manejar la interacci�
 * **Lógica de Negocio:** Gestión de autenticación, seguridad, APIs HTTP y comunicación fluida con la base de datos
 
 ### Base de Datos y Persistencia
-* **MySQL / PostgreSQL:** Sistemas relacionales para el manejo de datos estructurados como empresas, usuarios y vacantes
+* **PostgreSQL:** Sistemas relacionales para el manejo de datos estructurados como empresas, usuarios y vacantes
 * **Prisma / TypeORM:** Uso de ORMs para abstraer la base de datos, facilitar las migraciones y mejorar la mantenibilidad del código
 * **Geolocalización:** Implementación de filtros de cercanía y ubicación específicos para la región de Tehuacán
 
