@@ -34,7 +34,7 @@ aprovechar el uso de geolocalización y filtros de cercanía; el web app podrá
 escalar para incluir empresas de distintos tamaños, gestionar grandes volúmenes 
 de vacantes y usuarios y, en un futuro, integrar servicios adicionales (por ejemplo 
 pagos para ofertas destacadas). 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
 Para garantizar que la plataforma sea escalable y capaz de manejar la interacción bidireccional requerida, se ha seleccionado el siguiente stack tecnológico:
 
@@ -55,9 +55,66 @@ Para garantizar que la plataforma sea escalable y capaz de manejar la interacci�
 * **Prisma / TypeORM:** Uso de ORMs para abstraer la base de datos, facilitar las migraciones y mejorar la mantenibilidad del código.
 * **Geolocalización:** Implementación de filtros de cercanía y ubicación específicos para la región de Tehuacán.
   
- ## ☁️ Hosting y Servicios
+ ## Hosting y Servicios
 * *servidor:* Despliegue del backend en contenedores *Docker* (servidores VPS o Kubernetes) para facilitar la escalabilidad. También se consideran servicios PaaS como Heroku, Render o Fly.io
   
 *Almacenamiento:* Uso de servicios en la nube como AWS S3, Google Cloud Storage o DigitalOcean Spaces para archivos (CVs en PDF e imágenes)
 
 *Notificaciones:* Integración con SendGrid o Mailgun para correos y, en fases posteriores, notificaciones push
+
+## Estructura del Proyecto 
+CONECTA-TEHUACAN/
+│
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+│       # Pipeline de integración continua (CI) con GitHub Actions
+│
+├── .husky/
+│   └── pre-commit
+│       # Hook de Git para validaciones antes de cada commit
+│
+├── apps/
+│   ├── backend/
+│   │   ├── src/
+│   │   │   └── index.js
+│   │   │   # Punto de entrada del servidor backend
+│   │   ├── Dockerfile
+│   │   │   # Imagen Docker para el backend
+│   │   ├── package.json
+│   │   └── package-lock.json
+│   │
+│   └── frontend/
+│       ├── src/
+│       │   └── main.tsx
+│       │   # Punto de entrada del frontend
+│       ├── index.html
+│       ├── Dockerfile
+│       │   # Imagen Docker para el frontend
+│       ├── vite.config.js
+│       ├── package.json
+│       └── package-lock.json
+│
+├── docker/
+│   └── docker-compose.yml
+│       # Orquestación de contenedores (frontend, backend, servicios)
+│
+├── investigación comparativa/
+│   ├── Kevin Ricardo Simon Alfaro.pdf
+│   ├── Marco Antonio Aguilar.pdf
+│   ├── Osbaldo Alvarez.pdf
+│   └── Samuel Jonathan Trujillo Bolaños.pdf
+│       # Documentos individuales de investigación comparativa
+│
+├── docker-stack.yml
+│   # Archivo alternativo para despliegue de servicios
+│
+├── .gitignore
+│   # Archivos y carpetas ignorados por Git
+│
+├── package.json
+│   # Configuración general del monorepo
+│
+└── README.md
+    # Documentación principal del proyecto
+### ### ### ### ### ### ### ### ### ### ### 
