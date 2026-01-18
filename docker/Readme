@@ -1,0 +1,3 @@
+### Indicaciones para levantar el proyecto en Docker ###
+cd docker
+docker-compose up
