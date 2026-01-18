@@ -1,0 +1,68 @@
+## Ejecución del proyecto con Docker
+
+Este proyecto está configurado para ejecutarse completamente en contenedores utilizando Docker y Docker Compose.
+
+### Requisitos previos
+
+Antes de iniciar, asegúrate de tener instalado:
+
+- Docker Desktop (Windows/Mac) o Docker Engine (Linux)
+- Docker Compose
+- Git
+
+### Clonar el repositorio
+
+git clone https://github.com/KIRA21M/conecta-tehuacan.git
+cd conecta-tehuacan
+
+### Configuración de variables de entorno
+
+Antes de ejecutar el proyecto, copia los archivos de ejemplo de variables de entorno:
+
+cp apps/backend/.env.example apps/backend/.env
+cp apps/frontend/.env.example apps/frontend/.env
+
+Puedes modificar estos archivos según sea necesario para tu entorno local.
+
+### Levantar el proyecto
+
+Para iniciar todos los servicios (frontend y backend) ejecuta:
+
+cd docker
+docker-compose up
+
+### Acceso a la aplicación
+
+Una vez iniciado, los servicios estarán disponibles en:
+
+- Frontend: http://localhost:5173  
+- Backend: http://localhost:3000  
+
+### Ejecutar en segundo plano
+
+Si deseas ejecutar los contenedores en modo background:
+
+docker-compose up -d
+
+### Detener los contenedores
+
+Para detener el proyecto:
+
+docker-compose down
+
+### Ver contenedores activos
+
+docker ps
+
+---
+
+## Entorno de pruebas QA
+
+El proyecto incluye una configuración base para facilitar pruebas manuales y de integración.
+
+Para restablecer el entorno de pruebas:
+
+docker-compose down
+docker-compose up --build
+
+Esta configuración permite al equipo de QA validar la aplicación sin necesidad de instalar dependencias locales.
