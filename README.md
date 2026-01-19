@@ -48,7 +48,7 @@ Para garantizar que la plataforma sea escalable y capaz de manejar la interacci�
 * **Almacenamiento:** Uso de servicios en la nube como AWS S3, Google Cloud Storage o DigitalOcean Spaces para archivos (CVs en PDF e imágenes)
 * **Notificaciones:** Integración con SendGrid o Mailgun para correos y, en fases posteriores, notificaciones push
 
-## 🐳 Configuración con Docker
+## Configuración con Docker
 
 El proyecto utiliza contenedores para estandarizar el entorno de desarrollo:
 
@@ -61,7 +61,7 @@ El proyecto utiliza contenedores para estandarizar el entorno de desarrollo:
 docker-compose up -d
 ```
 
-## 👥 Equipo y Roles
+## Equipo y Roles
 
 Para garantizar una correcta organización del proyecto y una ejecución eficiente de cada fase de desarrollo, se han definido los siguientes roles técnicos. Cada integrante aporta una especialización crítica para cubrir el ciclo de vida completo del software:
 
