@@ -1,0 +1,25 @@
+
+1. Nivel Público (Rutas Públicas)
+Inicio: Propuesta de valor, buscador rápido y vacantes destacadas.
+
+
+
+
+2. Panel del Candidato (Rutas Privadas)
+Mi Perfil:
+
+Datos personales.
+
+Carga de CV .
+
+Habilidades y Experiencia.
+
+3. Panel de Empresa (Rutas Privadas)
+Dashboard de Reclutador
+
+Publicar Vacante
+
+Gestión de Candidatos
+
+Perfil de Empresa
+
