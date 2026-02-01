@@ -1,84 +1,107 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useView } from '@/contexts/ViewContext';
 import styles from './RecruiterSidebar.module.css';
 
-export default function RecruiterSidebar({ activeTab, setActiveTab }) {
-  const tabs = ['Mis Vacantes', 'Candidatos', 'Mensajes', 'Perfil Empresa'];
+export default function RecruiterSidebar({ onTabChange }) {
+  const { switchToCandidateView } = useView();
+  const [activeTab, setActiveTab] = useState('Candidatos');
   const [focusedIndex, setFocusedIndex] = useState(0);
-  const buttonRefs = useRef([]);
+  const itemRefs = useRef([]);
 
-  // Enfocar el botón activo cuando cambia activeTab
+  const tabs = [
+    { name: 'Mis vacantes', description: 'Creación y edición de ofertas laborales' },
+    { name: 'Candidatos', description: 'Revisión de perfiles que aplicaron a las vacantes' },
+    { name: 'Mensajes', description: 'Comunicación directa con aplicantes' },
+    { name: 'Perfil empresa', description: 'Configuración de datos corporativos y logo' }
+  ];
+
   useEffect(() => {
-    const index = tabs.indexOf(activeTab);
-    if (index !== -1) {
-      setFocusedIndex(index);
-    }
-  }, [activeTab]);
+    itemRefs.current = itemRefs.current.slice(0, tabs.length + 1);
+  }, [tabs.length]);
 
-  // Manejar navegación por teclado
   useEffect(() => {
     const handleKeyDown = (e) => {
+      let newIndex = focusedIndex;
+
       switch (e.key) {
         case 'ArrowDown':
           e.preventDefault();
-          setFocusedIndex((prev) => (prev + 1) % tabs.length);
+          newIndex = (focusedIndex + 1) % (tabs.length + 1);
           break;
-          
         case 'ArrowUp':
           e.preventDefault();
-          setFocusedIndex((prev) => (prev - 1 + tabs.length) % tabs.length);
+          newIndex = (focusedIndex - 1 + tabs.length + 1) % (tabs.length + 1);
           break;
-          
         case 'Enter':
         case ' ':
           e.preventDefault();
-          setActiveTab(tabs[focusedIndex]);
+          if (focusedIndex === 0) {
+            switchToCandidateView();
+          } else {
+            const tabIndex = focusedIndex - 1;
+            setActiveTab(tabs[tabIndex].name);
+            onTabChange?.(tabs[tabIndex].name);
+          }
           break;
-          
-        case 'Home':
-          e.preventDefault();
-          setFocusedIndex(0);
-          break;
-          
-        case 'End':
-          e.preventDefault();
-          setFocusedIndex(tabs.length - 1);
+        case 'Tab':
+          if (focusedIndex === tabs.length && !e.shiftKey) {
+            e.preventDefault();
+            setFocusedIndex(0);
+          } else if (focusedIndex === 0 && e.shiftKey) {
+            e.preventDefault();
+            setFocusedIndex(tabs.length);
+          }
           break;
       }
+
+      setFocusedIndex(newIndex);
     };
 
-    const currentRef = buttonRefs.current[focusedIndex];
-    if (currentRef) {
-      currentRef.focus();
-      currentRef.addEventListener('keydown', handleKeyDown);
-      
-      return () => {
-        currentRef.removeEventListener('keydown', handleKeyDown);
-      };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [focusedIndex, tabs.length]);
+
+  useEffect(() => {
+    if (itemRefs.current[focusedIndex]) {
+      itemRefs.current[focusedIndex].focus();
     }
-  }, [focusedIndex, tabs, setActiveTab]);
+  }, [focusedIndex]);
 
   return (
-    <div className={styles.sidebar} role="navigation" aria-label="Panel de control">
+    <aside className={styles.sidebar} role="navigation" aria-label="Panel de reclutador">
+      <h2 className={styles.title}>Dashboard Reclutador</h2>
+      
+      <button
+        className={styles.toggleButton}
+        onClick={switchToCandidateView}
+        ref={el => itemRefs.current[0] = el}
+        tabIndex={0}
+        onFocus={() => setFocusedIndex(0)}
+      >
+        Cambiar a Candidato
+      </button>
+
       {tabs.map((tab, index) => (
         <button
-          key={tab}
-          ref={el => buttonRefs.current[index] = el}
-          className={`${styles.tab} ${activeTab === tab ? styles.active : ''}`}
+          key={tab.name}
+          className={`${styles.tab} ${activeTab === tab.name ? styles.active : ''}`}
           onClick={() => {
-            setActiveTab(tab);
-            setFocusedIndex(index);
+            setActiveTab(tab.name);
+            onTabChange?.(tab.name);
           }}
-          onFocus={() => setFocusedIndex(index)}
-          tabIndex={activeTab === tab ? 0 : -1}
-          aria-current={activeTab === tab ? 'page' : undefined}
-          role="tab"
-          aria-label={tab}
+          ref={el => itemRefs.current[index + 1] = el}
+          tabIndex={0}
+          onFocus={() => setFocusedIndex(index + 1)}
+          aria-current={activeTab === tab.name ? 'page' : undefined}
         >
-          {tab}
+          <div className={styles.tabContent}>
+            <span className={styles.tabName}>{tab.name}</span>
+            <span className={styles.description}>{tab.description}</span>
+          </div>
         </button>
       ))}
-    </div>
+    </aside>
   );
 }

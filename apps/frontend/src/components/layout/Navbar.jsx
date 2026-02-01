@@ -1,208 +1,192 @@
-// components/layout/Navbar.jsx
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useView } from '@/contexts/ViewContext';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
+  const { switchToCandidateView, switchToRecruiterView } = useView();
+  const [showLoginOptions, setShowLoginOptions] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
-  const [isMobile, setIsMobile] = useState(false);
-  const navbarRef = useRef(null);
+  const navRef = useRef(null);
   const itemRefs = useRef([]);
-  const menuItemsRef = useRef([]);
-  const pathname = usePathname();
 
   const menuItems = [
-    { id: 'logo', type: 'logo', label: 'CONECTA TEHUACAN', href: '/' },
-    { id: 'contactanos', type: 'link', label: 'Contactanos', href: '/contacto' },
-    { id: 'explorar', type: 'link', label: 'Explorar Empleos', href: '/empleos' },
-    { id: 'sobre-nosotros', type: 'link', label: 'Sobre Nosotros', href: '/nosotros' },
-    { id: 'divider', type: 'divider' },
-    { id: 'login', type: 'link', label: 'Iniciar Sesión', href: '/login' },
-    { id: 'registro', type: 'button', label: 'Crear Cuenta', href: '/registro' },
+    { id: 'contacto', label: 'Contáctanos', href: '/contacto' },
+    { id: 'empleos', label: 'Explorar Empleos', href: '/empleos' },
+    { id: 'nosotros', label: 'Sobre Nosotros', href: '/nosotros' },
   ];
 
-  // Detectar cambio de tamaño de pantalla
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+    const totalItems = showLoginOptions ? menuItems.length + 5 : menuItems.length + 3;
+    itemRefs.current = itemRefs.current.slice(0, totalItems);
+  }, [menuItems.length, showLoginOptions]);
 
-  // Navegación por teclado con loop infinito
+  // Manejar el foco cuando se abre/cierra el dropdown
+  useEffect(() => {
+    if (showLoginOptions && activeIndex === menuItems.length + 1) {
+      // Si se abrió el dropdown desde el botón, mover foco a la primera opción
+      setTimeout(() => setActiveIndex(menuItems.length + 2), 0);
+    }
+  }, [showLoginOptions, menuItems.length]);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
-      const focusableItems = menuItems.filter(item => 
-        item.type === 'link' || item.type === 'button' || item.type === 'logo'
-      );
-      const currentIndex = focusableItems.findIndex(item => item.id === menuItems[activeIndex]?.id);
-      
+      const totalItems = showLoginOptions ? menuItems.length + 5 : menuItems.length + 3;
+      let newIndex = activeIndex;
+
       switch (e.key) {
         case 'ArrowRight':
-        case 'ArrowDown':
           e.preventDefault();
-          const nextIndex = (currentIndex + 1) % focusableItems.length;
-          const nextItemId = focusableItems[nextIndex].id;
-          const nextItemIndex = menuItems.findIndex(item => item.id === nextItemId);
-          setActiveIndex(nextItemIndex);
+          newIndex = (activeIndex + 1) % totalItems;
           break;
-          
         case 'ArrowLeft':
-        case 'ArrowUp':
           e.preventDefault();
-          const prevIndex = (currentIndex - 1 + focusableItems.length) % focusableItems.length;
-          const prevItemId = focusableItems[prevIndex].id;
-          const prevItemIndex = menuItems.findIndex(item => item.id === prevItemId);
-          setActiveIndex(prevItemIndex);
+          newIndex = (activeIndex - 1 + totalItems) % totalItems;
           break;
-          
-        case 'Tab':
-          if (currentIndex === focusableItems.length - 1 && !e.shiftKey) {
+        case 'Enter':
+          e.preventDefault();
+          if (activeIndex === menuItems.length + 1) {
+            // Botón de Iniciar Sesión
+            setShowLoginOptions(!showLoginOptions);
+          } else if (showLoginOptions && activeIndex === menuItems.length + 2) {
+            // Opción Candidatos
+            switchToCandidateView();
+            setShowLoginOptions(false);
+          } else if (showLoginOptions && activeIndex === menuItems.length + 3) {
+            // Opción Dashboard
+            switchToRecruiterView();
+            setShowLoginOptions(false);
+          }
+          break;
+        case 'Escape':
+          if (showLoginOptions) {
+            setShowLoginOptions(false);
+          }
+          break;
+        case 'ArrowDown':
+          if (activeIndex === menuItems.length + 1 && !showLoginOptions) {
             e.preventDefault();
-            const firstItemId = focusableItems[0].id;
-            const firstItemIndex = menuItems.findIndex(item => item.id === firstItemId);
-            setActiveIndex(firstItemIndex);
-          } else if (currentIndex === 0 && e.shiftKey) {
+            setShowLoginOptions(true);
+            newIndex = menuItems.length + 2; // Primera opción del dropdown
+          } else if (showLoginOptions && activeIndex >= menuItems.length + 2 && activeIndex < menuItems.length + 3) {
             e.preventDefault();
-            const lastItemId = focusableItems[focusableItems.length - 1].id;
-            const lastItemIndex = menuItems.findIndex(item => item.id === lastItemId);
-            setActiveIndex(lastItemIndex);
+            newIndex = activeIndex + 1;
+          }
+          break;
+        case 'ArrowUp':
+          if (showLoginOptions && activeIndex > menuItems.length + 2) {
+            e.preventDefault();
+            newIndex = activeIndex - 1;
+          } else if (showLoginOptions && activeIndex === menuItems.length + 2) {
+            e.preventDefault();
+            setShowLoginOptions(false);
+            newIndex = menuItems.length + 1; // Volver al botón de login
           }
           break;
       }
+
+      setActiveIndex(newIndex);
     };
 
-    const navbar = navbarRef.current;
-    if (navbar) {
-      navbar.addEventListener('keydown', handleKeyDown);
-      return () => navbar.removeEventListener('keydown', handleKeyDown);
-    }
-  }, [activeIndex, menuItems]);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [activeIndex, menuItems.length, showLoginOptions, switchToCandidateView, switchToRecruiterView]);
 
-  // Enfocar elemento activo
   useEffect(() => {
     if (activeIndex >= 0 && itemRefs.current[activeIndex]) {
       itemRefs.current[activeIndex].focus();
     }
   }, [activeIndex]);
 
-  // Inicializar refs
-  useEffect(() => {
-    itemRefs.current = itemRefs.current.slice(0, menuItems.length);
-  }, [menuItems]);
-
-  const handleItemClick = (index) => {
-    setActiveIndex(index);
-  };
-
-  const handleItemFocus = (index) => {
-    setActiveIndex(index);
-  };
-
-  const handleItemBlur = () => {
-    // No resetear inmediatamente para mantener estilos durante navegación
-    setTimeout(() => {
-      if (!itemRefs.current.some(ref => ref && ref === document.activeElement)) {
-        setActiveIndex(-1);
-      }
-    }, 100);
-  };
-
   return (
     <nav 
-      ref={navbarRef}
+      ref={navRef}
       className={styles.navbar}
       role="navigation"
       aria-label="Navegación principal"
     >
-      <div className={styles.navbarContainer}>
+      <div className={styles.container}>
         {/* Logo */}
-        <Link
+        <Link 
           href="/"
+          className={styles.logo}
           ref={el => itemRefs.current[0] = el}
-          className={`${styles.logo} ${activeIndex === 0 ? styles.active : ''} ${pathname === '/' ? styles.current : ''}`}
-          onClick={() => handleItemClick(0)}
-          onFocus={() => handleItemFocus(0)}
-          onBlur={handleItemBlur}
           tabIndex={0}
-          aria-label="Ir al inicio - CONECTA TEHUACAN"
+          onFocus={() => setActiveIndex(0)}
         >
-          <img src="/logo.svg" alt="CONECTA TEHUACAN" className={styles.logoImage} />
+          <img 
+            src="/logo.svg" 
+            alt="Conecta Tehuacán" 
+            width={321}
+            height={46}
+          />
         </Link>
 
-        {/* Menú de navegación */}
-        <div className={styles.navMenu}>
-          {/* Contactanos */}
-          <Link
-            href="/contacto"
-            ref={el => itemRefs.current[1] = el}
-            className={`${styles.navLink} ${activeIndex === 1 ? styles.active : ''} ${pathname === '/contacto' ? styles.current : ''}`}
-            onClick={() => handleItemClick(1)}
-            onFocus={() => handleItemFocus(1)}
-            onBlur={handleItemBlur}
-            tabIndex={0}
-          >
-            Contactanos
-          </Link>
+        {/* Menú principal */}
+        <div className={styles.menu}>
+          {menuItems.map((item, index) => (
+            <Link
+              key={item.id}
+              href={item.href}
+              className={styles.menuLink}
+              ref={el => itemRefs.current[index + 1] = el}
+              tabIndex={0}
+              onFocus={() => setActiveIndex(index + 1)}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
 
-          {/* Explorar Empleos */}
-          <Link
-            href="/empleos"
-            ref={el => itemRefs.current[2] = el}
-            className={`${styles.navLink} ${activeIndex === 2 ? styles.active : ''} ${pathname === '/empleos' ? styles.current : ''}`}
-            onClick={() => handleItemClick(2)}
-            onFocus={() => handleItemFocus(2)}
-            onBlur={handleItemBlur}
-            tabIndex={0}
-          >
-            Explorar Empleos
-          </Link>
-
-          {/* Sobre Nosotros */}
-          <Link
-            href="/nosotros"
-            ref={el => itemRefs.current[3] = el}
-            className={`${styles.navLink} ${activeIndex === 3 ? styles.active : ''} ${pathname === '/nosotros' ? styles.current : ''}`}
-            onClick={() => handleItemClick(3)}
-            onFocus={() => handleItemFocus(3)}
-            onBlur={handleItemBlur}
-            tabIndex={0}
-          >
-            Sobre Nosotros
-          </Link>
-
-          {/* Divisor */}
-          <div className={styles.divider} aria-hidden="true"></div>
-
-          {/* Iniciar Sesión */}
-          <Link
-            href="/login"
-            ref={el => itemRefs.current[4] = el}
-            className={`${styles.navLink} ${activeIndex === 4 ? styles.active : ''} ${pathname === '/login' ? styles.current : ''}`}
-            onClick={() => handleItemClick(4)}
-            onFocus={() => handleItemFocus(4)}
-            onBlur={handleItemBlur}
-            tabIndex={0}
-          >
-            Iniciar Sesión
-          </Link>
-
-          {/* Crear Cuenta - Botón */}
+        {/* Botones de autenticación */}
+        <div className={styles.authSection}>
+          <div className={styles.loginContainer}>
+            <button
+              className={styles.loginButton}
+              ref={el => itemRefs.current[menuItems.length + 1] = el}
+              tabIndex={0}
+              onClick={() => setShowLoginOptions(!showLoginOptions)}
+              onFocus={() => setActiveIndex(menuItems.length + 1)}
+              aria-expanded={showLoginOptions}
+              aria-haspopup="true"
+            >
+              Iniciar Sesión
+            </button>
+            
+            {showLoginOptions && (
+              <div className={styles.loginOptions} role="menu">
+                <button
+                  className={styles.loginOption}
+                  onClick={switchToCandidateView}
+                  role="menuitem"
+                  ref={el => itemRefs.current[menuItems.length + 2] = el}
+                  tabIndex={0}
+                  onFocus={() => setActiveIndex(menuItems.length + 2)}
+                >
+                  Candidatos
+                </button>
+                <button
+                  className={styles.loginOption}
+                  onClick={switchToRecruiterView}
+                  role="menuitem"
+                  ref={el => itemRefs.current[menuItems.length + 3] = el}
+                  tabIndex={0}
+                  onFocus={() => setActiveIndex(menuItems.length + 3)}
+                >
+                  Dashboard
+                </button>
+              </div>
+            )}
+          </div>
+          
           <Link
             href="/registro"
-            ref={el => itemRefs.current[5] = el}
-            className={`${styles.navButton} ${activeIndex === 5 ? styles.active : ''} ${pathname === '/registro' ? styles.current : ''}`}
-            onClick={() => handleItemClick(5)}
-            onFocus={() => handleItemFocus(5)}
-            onBlur={handleItemBlur}
+            className={styles.registerButton}
+            ref={el => itemRefs.current[showLoginOptions ? menuItems.length + 4 : menuItems.length + 2] = el}
             tabIndex={0}
-            aria-label="Crear cuenta nueva"
+            onFocus={() => setActiveIndex(showLoginOptions ? menuItems.length + 4 : menuItems.length + 2)}
           >
             Crear Cuenta
           </Link>

@@ -1,0 +1,7 @@
+/* ClientLayout.module.css */
+.mainLayout {
+  max-width: 1728px;
+  margin: 0 auto;
+  background-color: #FBFBFB;
+  min-height: 100vh;
+}

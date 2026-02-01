@@ -2,14 +2,18 @@
 
 import { useView } from '@/contexts/ViewContext';
 import Navbar from './Navbar';
-import AuthenticatedNavbar from './AuthenticatedNavbar';
+import CandidateNavbar from './CandidateNavbar';
+import RecruiterNavbar from './RecruiterNavbar';
 
 export default function ConditionalNavbar() {
   const { view } = useView();
 
-  if (view === 'candidate') {
-    return <AuthenticatedNavbar />;
+  switch (view) {
+    case 'candidate':
+      return <CandidateNavbar />;
+    case 'recruiter':
+      return <RecruiterNavbar />;
+    default:
+      return <Navbar />;
   }
-
-  return <Navbar />;
 }

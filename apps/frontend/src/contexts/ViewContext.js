@@ -15,25 +15,27 @@ export function ViewProvider({ children }) {
   const switchToCandidateView = () => {
     setView('candidate');
     setShouldFocusFirstElement(true);
-    // Opcional: Redirigir a una ruta específica para candidatos
-    // if (pathname === '/login') {
-    //   router.push('/dashboard');
-    // }
+    router.push('/dashboard');
+  };
+
+  const switchToRecruiterView = () => {
+    setView('recruiter');
+    setShouldFocusFirstElement(true);
+    router.push('/recruiter');
   };
 
   const switchToPublicView = () => {
     setView('public');
     setShouldFocusFirstElement(true);
+    router.push('/');
   };
 
-  // Reset to public view when navigating away from login/dashboard
   useEffect(() => {
-    if (pathname !== '/login' && pathname !== '/dashboard') {
+    if (pathname !== '/login' && pathname !== '/dashboard' && pathname !== '/recruiter') {
       setView('public');
     }
   }, [pathname]);
 
-  // Enfocar primer elemento después de cambiar de vista
   useEffect(() => {
     if (shouldFocusFirstElement && firstElementRef.current) {
       setTimeout(() => {
@@ -48,6 +50,7 @@ export function ViewProvider({ children }) {
       view, 
       setView,
       switchToCandidateView,
+      switchToRecruiterView,
       switchToPublicView,
       firstElementRef 
     }}>
