@@ -1,5 +1,5 @@
 import '@/styles/globals.css'
-import Navbar from '@/components/layout/Navbar'
+import ClientLayout from '@/components/layout/ClientLayout'
 
 export const metadata = {
   title: 'Conecta Tehuacán',
@@ -27,11 +27,9 @@ export default function RootLayout({ children }) {
           Saltar al contenido principal
         </a>
         
-        <Navbar />
-        
-        <main id="main-content" className="main-container">
+        <ClientLayout>
           {children}
-        </main>
+        </ClientLayout>
         
         {/* Puedes agregar un Footer aquí más tarde */}
         

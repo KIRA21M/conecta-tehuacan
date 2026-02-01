@@ -1,0 +1,197 @@
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[7].use[3]!./src/components/layout/RecruiterSidebar.module.css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************/
+/* components/RecruiterSidebar.module.css */
+.RecruiterSidebar_sidebar__hblN7 {
+  width: 280px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  height: -moz-fit-content;
+  height: fit-content;
+  margin: 100px 20px 20px 20px;
+}
+
+.RecruiterSidebar_tab__jj4pF {
+  padding: 18px 24px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  color: #4b5563;
+  outline: none;
+  position: relative;
+}
+
+.RecruiterSidebar_tab__jj4pF:hover {
+  background-color: #f3f4f6;
+  color: #2867EC;
+}
+
+.RecruiterSidebar_tab__jj4pF:focus {
+  box-shadow: 0 0 0 3px rgba(40, 103, 236, 0.2);
+  border-color: #2867EC;
+  background-color: rgba(40, 103, 236, 0.05);
+}
+
+.RecruiterSidebar_tab__jj4pF.RecruiterSidebar_active__dk8Ve {
+  background-color: #2867EC;
+  color: white;
+  font-weight: 600;
+}
+
+.RecruiterSidebar_tab__jj4pF.RecruiterSidebar_active__dk8Ve:focus {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5), 0 0 0 4px #2867EC;
+}
+
+/* Indicador visual para foco */
+.RecruiterSidebar_tab__jj4pF:focus:not(.RecruiterSidebar_active__dk8Ve)::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border: 2px solid #2867EC;
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .RecruiterSidebar_sidebar__hblN7 {
+    width: 100%;
+    margin: 80px 0 0 0;
+    border-radius: 0;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 10px;
+  }
+  
+  .RecruiterSidebar_tab__jj4pF {
+    font-size: 18px;
+    padding: 12px 16px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+/*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[7].use[3]!./src/app/(auth)/login/login.module.css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************/
+/* app/login/login.module.css */
+.login_container__6x_TJ {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+  gap: 30px;
+  padding: 40px 20px;
+  margin-top: 80px;
+}
+
+.login_button__TuE7R {
+  padding: 20px 40px;
+  font-size: 24px;
+  background-color: #2867EC;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  min-width: 300px;
+  text-align: center;
+  outline: none;
+}
+
+.login_button__TuE7R:hover {
+  background-color: #1d56d6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(40, 103, 236, 0.3);
+}
+
+.login_button__TuE7R:focus {
+  background-color: #1d56d6;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8), 0 0 0 6px rgba(40, 103, 236, 0.5);
+}
+
+.login_button__TuE7R a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.login_dashboard__de9kB {
+  display: flex;
+  min-height: calc(100vh - 80px);
+  margin-top: 80px;
+  gap: 30px;
+  padding: 0 40px;
+  max-width: 1728px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login_content__9ewKZ {
+  flex: 1 1;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  outline: none;
+}
+
+.login_content__9ewKZ h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 32px;
+  color: #1f2937;
+  margin: 0;
+}
+
+@media (max-width: 1024px) {
+  .login_dashboard__de9kB {
+    flex-direction: column;
+    padding: 0 20px;
+    gap: 20px;
+  }
+  
+  .login_content__9ewKZ {
+    padding: 20px;
+  }
+  
+  .login_button__TuE7R {
+    min-width: 250px;
+    font-size: 20px;
+    padding: 16px 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .login_container__6x_TJ {
+    margin-top: 70px;
+    min-height: calc(100vh - 70px);
+  }
+  
+  .login_dashboard__de9kB {
+    margin-top: 70px;
+  }
+  
+  .login_button__TuE7R {
+    min-width: 200px;
+    font-size: 18px;
+    padding: 14px 28px;
+  }
+}

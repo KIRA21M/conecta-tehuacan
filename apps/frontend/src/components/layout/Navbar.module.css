@@ -42,6 +42,10 @@
   background-color: rgba(40, 103, 236, 0.05);
 }
 
+.logo.current {
+  color: #2867EC;
+}
+
 .logoText {
   font-family: 'Post No Bills Jaffna', sans-serif;
   font-weight: 800; /* ExtraBold */
@@ -101,6 +105,10 @@
   /* Eliminamos el border-color y background-color */
   border-color: transparent;
   background-color: transparent;
+}
+
+.navLink.current {
+  color: #2867EC;
 }
 
 /* MODIFICACIÓN: Línea inferior siempre visible para activos */
@@ -210,6 +218,10 @@
   background-color: #1d56d6;
   border-color: #ffffff;
   box-shadow: 0 0 0 3px rgba(40, 103, 236, 0.5);
+}
+
+.navButton.current {
+  background-color: #1d56d6;
 }
 
 /* Responsive */

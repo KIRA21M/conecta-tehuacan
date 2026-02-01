@@ -3,6 +3,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
@@ -11,6 +12,7 @@ export default function Navbar() {
   const navbarRef = useRef(null);
   const itemRefs = useRef([]);
   const menuItemsRef = useRef([]);
+  const pathname = usePathname();
 
   const menuItems = [
     { id: 'logo', type: 'logo', label: 'CONECTA TEHUACAN', href: '/' },
@@ -124,7 +126,7 @@ export default function Navbar() {
         <Link
           href="/"
           ref={el => itemRefs.current[0] = el}
-          className={`${styles.logo} ${activeIndex === 0 ? styles.active : ''}`}
+          className={`${styles.logo} ${activeIndex === 0 ? styles.active : ''} ${pathname === '/' ? styles.current : ''}`}
           onClick={() => handleItemClick(0)}
           onFocus={() => handleItemFocus(0)}
           onBlur={handleItemBlur}
@@ -140,7 +142,7 @@ export default function Navbar() {
           <Link
             href="/contacto"
             ref={el => itemRefs.current[1] = el}
-            className={`${styles.navLink} ${activeIndex === 1 ? styles.active : ''}`}
+            className={`${styles.navLink} ${activeIndex === 1 ? styles.active : ''} ${pathname === '/contacto' ? styles.current : ''}`}
             onClick={() => handleItemClick(1)}
             onFocus={() => handleItemFocus(1)}
             onBlur={handleItemBlur}
@@ -153,7 +155,7 @@ export default function Navbar() {
           <Link
             href="/empleos"
             ref={el => itemRefs.current[2] = el}
-            className={`${styles.navLink} ${activeIndex === 2 ? styles.active : ''}`}
+            className={`${styles.navLink} ${activeIndex === 2 ? styles.active : ''} ${pathname === '/empleos' ? styles.current : ''}`}
             onClick={() => handleItemClick(2)}
             onFocus={() => handleItemFocus(2)}
             onBlur={handleItemBlur}
@@ -166,7 +168,7 @@ export default function Navbar() {
           <Link
             href="/nosotros"
             ref={el => itemRefs.current[3] = el}
-            className={`${styles.navLink} ${activeIndex === 3 ? styles.active : ''}`}
+            className={`${styles.navLink} ${activeIndex === 3 ? styles.active : ''} ${pathname === '/nosotros' ? styles.current : ''}`}
             onClick={() => handleItemClick(3)}
             onFocus={() => handleItemFocus(3)}
             onBlur={handleItemBlur}
@@ -182,7 +184,7 @@ export default function Navbar() {
           <Link
             href="/login"
             ref={el => itemRefs.current[4] = el}
-            className={`${styles.navLink} ${activeIndex === 4 ? styles.active : ''}`}
+            className={`${styles.navLink} ${activeIndex === 4 ? styles.active : ''} ${pathname === '/login' ? styles.current : ''}`}
             onClick={() => handleItemClick(4)}
             onFocus={() => handleItemFocus(4)}
             onBlur={handleItemBlur}
@@ -195,7 +197,7 @@ export default function Navbar() {
           <Link
             href="/registro"
             ref={el => itemRefs.current[5] = el}
-            className={`${styles.navButton} ${activeIndex === 5 ? styles.active : ''}`}
+            className={`${styles.navButton} ${activeIndex === 5 ? styles.active : ''} ${pathname === '/registro' ? styles.current : ''}`}
             onClick={() => handleItemClick(5)}
             onFocus={() => handleItemFocus(5)}
             onBlur={handleItemBlur}

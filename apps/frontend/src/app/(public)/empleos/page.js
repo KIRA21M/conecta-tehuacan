@@ -1,3 +1,3 @@
 export default function Empleos() {
-  return <h1>Aquí va explorar empleos</h1>;
+  return <h1>Aquí va Explorar Empleos</h1>;
 }
