@@ -1,0 +1,330 @@
+/* components/layout/Navbar.module.css */
+.navbar {
+  width: 100%;
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  height: 99px;
+  display: flex;
+  align-items: center;
+}
+
+.navbarContainer {
+  max-width: 1728px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* Logo */
+.logo {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 20px;
+  transition: all 0.2s ease;
+  outline: none;
+  border-radius: 4px;
+  border: 2px solid transparent;
+}
+
+.logo.active,
+.logo:focus {
+  border-color: #2867EC;
+  background-color: rgba(40, 103, 236, 0.05);
+}
+
+.logoText {
+  font-family: 'Post No Bills Jaffna', sans-serif;
+  font-weight: 800; /* ExtraBold */
+  font-size: 38px;
+  color: #000000;
+  letter-spacing: 0.5px;
+}
+
+.logoTextBlue {
+  font-family: 'Post No Bills Jaffna', sans-serif;
+  font-weight: 800; /* ExtraBold */
+  font-size: 38px;
+  color: #2867EC;
+  letter-spacing: 0.5px;
+}
+
+/* Menú de navegación */
+.navMenu {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  height: 100%;
+}
+
+/* Enlaces de navegación - REVISADO */
+.navLink {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500; /* Medium */
+  font-size: 20px; /* Reducido ligeramente para mejor ajuste */
+  color: #5F6681;
+  text-decoration: none;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
+  outline: none;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  position: relative;
+  /* Permite que el texto se ajuste a múltiples líneas si es necesario */
+  white-space: normal;
+  line-height: 1.2;
+  text-align: center;
+  min-height: 40px; /* Altura mínima para consistencia */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navLink:hover {
+  color: #2867EC;
+  transform: translateY(-1px);
+}
+
+/* MODIFICACIÓN: Eliminar el cuadro grisado y usar solo línea */
+.navLink.active,
+.navLink:focus {
+  color: #2867EC;
+  /* Eliminamos el border-color y background-color */
+  border-color: transparent;
+  background-color: transparent;
+}
+
+/* MODIFICACIÓN: Línea inferior siempre visible para activos */
+.navLink.active::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 24px); /* Ajustado para que no toque los bordes */
+  height: 3px;
+  background-color: #2867EC;
+  border-radius: 2px;
+}
+
+/* Línea al hover */
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px;
+  background-color: #2867EC;
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+.navLink:hover::after {
+  width: calc(100% - 24px); /* Ajustado para que no toque los bordes */
+}
+
+/* AJUSTES ESPECÍFICOS: Ahora permitimos que el texto se muestre completamente */
+.navLink[href="/empleos"] {
+  /* Ancho flexible basado en el contenido */
+  min-width: 120px;
+  max-width: 140px;
+  padding: 10px 8px;
+  text-align: center;
+  word-wrap: break-word;
+  word-break: normal;
+}
+
+.navLink[href="/nosotros"] {
+  /* Ancho flexible basado en el contenido */
+  min-width: 130px;
+  max-width: 150px;
+  padding: 10px 8px;
+  text-align: center;
+  word-wrap: break-word;
+  word-break: normal;
+}
+
+.navLink[href="/contacto"] {
+  /* Contactanos es una sola palabra, puede ser más compacto */
+  min-width: 140px;
+  max-width: 160px;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.navLink[href="/login"] {
+  /* Iniciar Sesión tiene dos palabras */
+  min-width: 120px;
+  max-width: 140px;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+/* Divisor */
+.divider {
+  width: 1px;
+  height: 35px;
+  background-color: #D3D3D3;
+  margin: 0 8px;
+}
+
+/* Botón Crear Cuenta */
+.navButton {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500; /* Medium */
+  font-size: 20px;
+  color: #ffffff;
+  background-color: #2867EC;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  outline: none;
+  border: 2px solid transparent;
+  white-space: nowrap;
+  cursor: pointer;
+  display: inline-block;
+  min-width: 140px;
+  text-align: center;
+}
+
+.navButton:hover {
+  background-color: #1d56d6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 103, 236, 0.3);
+}
+
+.navButton.active,
+.navButton:focus {
+  background-color: #1d56d6;
+  border-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(40, 103, 236, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .navbarContainer {
+    padding: 0 30px;
+  }
+  
+  .navMenu {
+    gap: 25px; /* Reducido el gap */
+  }
+  
+  .navLink {
+    font-size: 18px; /* Tamaño de fuente más pequeño */
+    padding: 8px 6px;
+    min-height: 36px;
+  }
+  
+  .navButton {
+    font-size: 18px;
+    padding: 10px 18px;
+    min-width: 120px;
+  }
+  
+  /* Ajustes específicos en responsive */
+  .navLink[href="/empleos"] {
+    min-width: 100px;
+    max-width: 120px;
+  }
+  
+  .navLink[href="/nosotros"] {
+    min-width: 110px;
+    max-width: 130px;
+  }
+  
+  .navLink[href="/contacto"] {
+    min-width: 120px;
+    max-width: 140px;
+  }
+  
+  .navLink[href="/login"] {
+    min-width: 100px;
+    max-width: 120px;
+  }
+  
+  .logoText,
+  .logoTextBlue {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .navbar {
+    height: 80px;
+  }
+  
+  .navMenu {
+    display: none; /* Ocultar menú en mobile */
+  }
+  
+  .logoText,
+  .logoTextBlue {
+    font-size: 28px;
+  }
+}
+
+/* Versión móvil con menú hamburguesa */
+.mobileMenuButton {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  outline: none;
+}
+
+@media (max-width: 1024px) {
+  .mobileMenuButton {
+    display: block;
+  }
+  
+  .navbar {
+    height: 80px;
+  }
+  
+  .navbarContainer {
+    padding: 0 20px;
+  }
+}
+
+/* Asegurar accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .navLink,
+  .navButton,
+  .logo {
+    transition: none;
+  }
+  
+  .navLink::after {
+    display: none;
+  }
+}
+
+/* Modo de alto contraste */
+@media (prefers-contrast: high) {
+  .navLink {
+    border: 2px solid currentColor;
+  }
+  
+  .navLink.active::after {
+    height: 4px;
+    background-color: currentColor;
+  }
+  
+  .navButton {
+    border: 2px solid #ffffff;
+  }
+}
