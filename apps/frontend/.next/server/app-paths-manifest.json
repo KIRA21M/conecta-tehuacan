@@ -1,9 +1,6 @@
 {
   "/not-found": "app/not-found.js",
+  "/test-error/page": "app/test-error/page.js",
   "/page": "app/page.js",
-  "/(public)/contacto/page": "app/(public)/contacto/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
-  "/(public)/nosotros/page": "app/(public)/nosotros/page.js",
-  "/(public)/empleos/page": "app/(public)/empleos/page.js",
-  "/recruiter/page": "app/recruiter/page.js"
+  "/(public)/empleos/page": "app/(public)/empleos/page.js"
 }
