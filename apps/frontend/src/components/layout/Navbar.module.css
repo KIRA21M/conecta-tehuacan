@@ -1,0 +1,133 @@
+.navbar {
+  background-color: #FFFFFF;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.container {
+  max-width: 1728px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo img {
+  height: 46px;
+  width: 321px;
+  object-fit: contain;
+}
+
+.menu {
+  display: flex;
+  gap: 2rem;
+}
+
+.menuLink {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: #4b5563;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+}
+
+.menuLink:hover,
+.menuLink:focus {
+  color: #2867EC;
+  background-color: rgba(40, 103, 236, 0.05);
+  outline: 2px solid #2867EC;
+  outline-offset: 2px;
+}
+
+.authSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loginContainer {
+  position: relative;
+}
+
+.loginButton {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: #2867EC;
+  background: none;
+  border: 1px solid #2867EC;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.loginButton:hover,
+.loginButton:focus {
+  background-color: #2867EC;
+  color: white;
+  outline: 2px solid #2867EC;
+  outline-offset: 2px;
+}
+
+.loginOptions {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  z-index: 10;
+}
+
+.loginOption {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  background: none;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.loginOption:hover,
+.loginOption:focus {
+  background-color: #f3f4f6;
+  color: #2867EC;
+  outline: none;
+}
+
+.registerButton {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: white;
+  background-color: #2867EC;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.registerButton:hover,
+.registerButton:focus {
+  background-color: #1d56d6;
+  outline: 2px solid #2867EC;
+  outline-offset: 2px;
+}

@@ -1,0 +1,172 @@
+/* app/recruiter/recruiter.module.css */
+.dashboard {
+  display: flex;
+  min-height: calc(100vh - 80px);
+  margin-top: 80px;
+  gap: 30px;
+  padding: 0 40px;
+  max-width: 1728px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.content {
+  flex: 1;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  outline: none;
+}
+
+.content h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 32px;
+  color: #1f2937;
+  margin: 0 0 20px 0;
+}
+
+.content p {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0 0 30px 0;
+}
+
+/* Estilos específicos para el contenido del dashboard de reclutadores */
+.vacancyCard {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+}
+
+.vacancyCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #2867EC;
+}
+
+.vacancyCard h3 {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.vacancyCard p {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #6b7280;
+  margin: 4px 0;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.statusBadge.active {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.statusBadge.inactive {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.actionBtn {
+  background-color: #2867EC;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 8px;
+  margin-top: 12px;
+}
+
+.actionBtn:hover {
+  background-color: #1d56d6;
+}
+
+.actionBtn:focus {
+  outline: 2px solid #2867EC;
+  outline-offset: 2px;
+}
+
+.actionBtn.secondary {
+  background-color: #6b7280;
+}
+
+.actionBtn.secondary:hover {
+  background-color: #4b5563;
+}
+
+.createBtn {
+  background-color: #059669;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.createBtn:hover {
+  background-color: #047857;
+  transform: translateY(-1px);
+}
+
+.createBtn:focus {
+  outline: 2px solid #059669;
+  outline-offset: 2px;
+}
+
+@media (max-width: 1024px) {
+  .dashboard {
+    flex-direction: column;
+    padding: 0 20px;
+    gap: 20px;
+  }
+
+  .content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    margin-top: 70px;
+    padding: 0 10px;
+  }
+
+  .content {
+    padding: 16px;
+  }
+
+  .content h1 {
+    font-size: 24px;
+  }
+
+  .actionBtn {
+    padding: 6px 12px;
+    font-size: 14px;
+    margin-right: 4px;
+  }
+}
