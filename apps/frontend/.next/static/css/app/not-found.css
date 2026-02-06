@@ -1,0 +1,77 @@
+/*!********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[7].use[3]!./src/app/error.module.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************/
+.error_container__oicDm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+  font-family: 'Inter', 'Roboto', sans-serif;
+  color: #000000;
+}
+
+.error_content__eVh8W {
+  text-align: center;
+  max-width: 600px;
+  padding: 20px;
+}
+
+.error_errorCode__bRe0v {
+  font-size: 120px;
+  font-weight: bold;
+  color: #2563eb;
+  margin: 0;
+  line-height: 1;
+}
+
+.error_title__qYPJl {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 20px 0 10px 0;
+  color: #000000;
+}
+
+.error_description__GdYyF {
+  font-size: 16px;
+  color: #666666;
+  margin: 0 0 30px 0;
+  line-height: 1.5;
+}
+
+.error_button__qb19O {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #2563eb;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.error_button__qb19O:hover {
+  background-color: #1d4ed8;
+}
+
+@media (max-width: 768px) {
+  .error_errorCode__bRe0v {
+    font-size: 80px;
+  }
+
+  .error_title__qYPJl {
+    font-size: 18px;
+  }
+
+  .error_description__GdYyF {
+    font-size: 14px;
+  }
+
+  .error_button__qb19O {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
