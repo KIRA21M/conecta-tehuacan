@@ -1,8 +1,4 @@
-
-Readme · MD
-Copiar
-
-# Conecta Tehuacán
+#       Conecta Tehuacán
 
 Proyecto profesional listo para producción.
 
