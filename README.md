@@ -31,8 +31,6 @@ Para garantizar que la plataforma sea escalable y capaz de manejar la interacci�
 
 ### Frontend (Lado del Cliente)
 
-- **React:** Biblioteca declarativa y eficiente para construir interfaces de usuario basadas en componentes reutilizables.
-- **Vite:** Herramienta de construcción para un entorno de desarrollo ágil y rápido.
 - **Next.js:** Framework complementario para optimizar el rendimiento mediante renderizado del lado del servidor (SSR) y rutas dinámicas.
 - **Gestión de Estados:** Uso de bibliotecas maduras como Redux o Zustand para manejar la complejidad de los datos en el cliente.
 - **Interactividad:** Actualización de la interfaz en tiempo real en respuesta a las acciones del usuario, como búsquedas y postulaciones.
@@ -45,8 +43,7 @@ Para garantizar que la plataforma sea escalable y capaz de manejar la interacci�
 
 ### Base de Datos y Persistencia
 
-- **MySQL / PostgreSQL:** Sistemas relacionales para el manejo de datos estructurados como empresas, usuarios y vacantes.
-- **Prisma / TypeORM:** Uso de ORMs para abstraer la base de datos, facilitar las migraciones y mejorar la mantenibilidad del código.
+- **MySQL :** Sistemas relacionales para el manejo de datos estructurados como empresas, usuarios y vacantes.
 - **Geolocalización:** Implementación de filtros de cercanía y ubicación específicos para la región de Tehuacán.
 
 ### Hosting y Servicios
