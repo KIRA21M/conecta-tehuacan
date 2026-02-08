@@ -1,4 +1,4 @@
-// File: C:\Users\Baldo\OneDrive\Escritorio\da\conecta-tehuacan\apps\frontend\src\app\(public)\empleos\page.js
+// File: C:\Users\alfar\OneDrive\Documentos\proyecto pacheco\conecta-tehuacan\apps\frontend\src\app\(public)\empleos\page.js
 import * as entry from '../../../../../src/app/(public)/empleos/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
