@@ -37,7 +37,7 @@ export default function CandidateSidebar({ onTabChange }) {
         case ' ':
           e.preventDefault();
           if (focusedIndex === 0) {
-            switchToRecruiterView();
+            switchToRecruiterView(true);
           } else {
             const tabIndex = focusedIndex - 1;
             setActiveTab(tabs[tabIndex].name);
@@ -74,7 +74,7 @@ export default function CandidateSidebar({ onTabChange }) {
       
       <button
         className={styles.toggleButton}
-        onClick={switchToRecruiterView}
+        onClick={() => switchToRecruiterView(true)}
         ref={el => itemRefs.current[0] = el}
         tabIndex={0}
         onFocus={() => setFocusedIndex(0)}

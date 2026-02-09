@@ -34,7 +34,7 @@ export default function RecruiterSidebar({ onTabChange }) {
           e.preventDefault();
           newIndex = (focusedIndex - 1 + tabs.length + 1) % (tabs.length + 1);
           break;
-        case 'Enter':
+          case 'Enter':
         case ' ':
           e.preventDefault();
           if (focusedIndex === 0) {

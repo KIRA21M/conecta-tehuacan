@@ -1,0 +1,9 @@
+2:I[7831,[],""]
+3:I[2850,["160","static/chunks/app/not-found-aaf39f4b7c588a9f.js"],""]
+4:I[8111,["67","static/chunks/67-4b1b8f8f201c766a.js","185","static/chunks/app/layout-a8e165cdee31e1d6.js"],""]
+5:I[5613,[],""]
+6:I[7776,["601","static/chunks/app/error-e204c6b812966de5.js"],""]
+7:I[1778,[],""]
+0:["WJL5QagF5FDAuC__DUSF-",[[["",{"children":["__PAGE__",{}]},"$undefined","$undefined",true],["",{"children":["__PAGE__",{},["$L1",["$","$L2",null,{"propsForComponent":{"params":{}},"Component":"$3","isStaticGeneration":true}],null]]},[null,["$","html",null,{"lang":"es","children":["$","body",null,{"className":"__className_f367f3","children":[["$","a",null,{"href":"#main-content","className":"skip-link","children":"Saltar al contenido principal"}],["$","$L4",null,{"children":["$","$L5",null,{"parallelRouterKey":"children","segmentPath":["children"],"loading":"$undefined","loadingStyles":"$undefined","loadingScripts":"$undefined","hasLoading":false,"error":"$6","errorStyles":[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/cdf8e80aff1b654c.css","precedence":"next","crossOrigin":""}]],"errorScripts":[],"template":["$","$L7",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":["$","$L3",null,{}],"notFoundStyles":[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/cdf8e80aff1b654c.css","precedence":"next","crossOrigin":""}]],"styles":[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/cdf8e80aff1b654c.css","precedence":"next","crossOrigin":""}]]}]}]]}]}],null]],[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/73f42da18394f0d0.css","precedence":"next","crossOrigin":""}]],"$L8"]]]]
+8:[["$","meta","0",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","1",{"charSet":"utf-8"}],["$","title","2",{"children":"Conecta Tehuacán"}],["$","meta","3",{"name":"description","content":"Plataforma de conexión laboral para Tehuacán"}]]
+1:null

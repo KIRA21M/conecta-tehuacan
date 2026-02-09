@@ -45,7 +45,7 @@ export default function Navbar() {
           e.preventDefault();
           newIndex = (activeIndex - 1 + totalItems) % totalItems;
           break;
-        case 'Enter':
+          case 'Enter':
           e.preventDefault();
           if (activeIndex === menuItems.length + 1) {
             // Botón de Iniciar Sesión
