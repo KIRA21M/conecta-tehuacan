@@ -12,26 +12,22 @@ export function ViewProvider({ children }) {
   const router = useRouter();
   const firstElementRef = useRef(null);
 
-  // These functions now accept an optional `navigate` flag.
-  // When `navigate` is true they will perform a client route push,
-  // otherwise they only update the view state so UI can change
-  // dynamically without triggering a route/navigation.
-  const switchToCandidateView = (navigate = false) => {
+  const switchToCandidateView = () => {
     setView('candidate');
     setShouldFocusFirstElement(true);
-    if (navigate) router.push('/dashboard');
+    router.push('/dashboard');
   };
 
-  const switchToRecruiterView = (navigate = false) => {
+  const switchToRecruiterView = () => {
     setView('recruiter');
     setShouldFocusFirstElement(true);
-    if (navigate) router.push('/recruiter');
+    router.push('/recruiter');
   };
 
-  const switchToPublicView = (navigate = false) => {
+  const switchToPublicView = () => {
     setView('public');
     setShouldFocusFirstElement(true);
-    if (navigate) router.push('/');
+    router.push('/');
   };
 
   useEffect(() => {
