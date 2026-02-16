@@ -89,15 +89,14 @@ export default function RecruiterNavbar() {
 
         {/* Foto del empresario */}
         <div className={styles.profileContainer}>
-          <div
+          <button
             className={styles.profileImage}
             ref={el => itemRefs.current[2] = el}
-            tabIndex={0}
             onFocus={() => setActiveIndex(2)}
             aria-label="Foto del empresario"
           >
             <span>E</span>
-          </div>
+          </button>
         </div>
       </div>
     </nav>

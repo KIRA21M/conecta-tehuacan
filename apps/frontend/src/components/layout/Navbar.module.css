@@ -27,6 +27,23 @@
   object-fit: contain;
 }
 
+.logoText {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logoConecta {
+  color: #111827;
+}
+
+.logoTehuacan {
+  color: #2563EB;
+}
+
 .menu {
   display: flex;
   gap: 2rem;

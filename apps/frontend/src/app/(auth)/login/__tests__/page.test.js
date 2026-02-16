@@ -5,16 +5,21 @@ import '@testing-library/jest-dom';
 import Login from '../page';
 
 // Mock del contexto ViewContext
+const mockSwitchToCandidateView = jest.fn();
+const mockSwitchToRecruiterView = jest.fn();
+
 jest.mock('@/contexts/ViewContext', () => ({
   useView: () => ({
-    switchToCandidateView: jest.fn(),
-    switchToRecruiterView: jest.fn(),
+    switchToCandidateView: mockSwitchToCandidateView,
+    switchToRecruiterView: mockSwitchToRecruiterView,
   }),
 }));
 
 describe('Login Component - Focus Management', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockSwitchToCandidateView.mockClear();
+    mockSwitchToRecruiterView.mockClear();
   });
 
   test('debe renderizar los botones de Candidatos y Dashboard', () => {
@@ -33,7 +38,6 @@ describe('Login Component - Focus Management', () => {
   });
 
   test('al hacer clic en el botón Candidatos, el foco debe permanecer en él', async () => {
-    const { switchToCandidateView } = require('@/contexts/ViewContext').useView();
     render(<Login />);
     
     const candidateButton = screen.getByTestId('candidate-button');
@@ -41,7 +45,7 @@ describe('Login Component - Focus Management', () => {
     await userEvent.click(candidateButton);
     
     expect(candidateButton).toHaveFocus();
-    expect(switchToCandidateView).toHaveBeenCalled();
+    expect(mockSwitchToCandidateView).toHaveBeenCalled();
   });
 
   test('al presionar Tab, el foco debe moverse del botón Candidatos al Dashboard', async () => {
@@ -117,7 +121,6 @@ describe('Login Component - Focus Management', () => {
   });
 
   test('al presionar Enter en el botón Candidatos, debe llamar a switchToCandidateView', async () => {
-    const { switchToCandidateView } = require('@/contexts/ViewContext').useView();
     render(<Login />);
     
     const candidateButton = screen.getByTestId('candidate-button');
@@ -130,11 +133,10 @@ describe('Login Component - Focus Management', () => {
     fireEvent.keyDown(candidateButton, { key: 'Enter' });
     fireEvent.click(candidateButton);
     
-    expect(switchToCandidateView).toHaveBeenCalled();
+    expect(mockSwitchToCandidateView).toHaveBeenCalled();
   });
 
   test('al presionar Enter en el botón Dashboard, debe llamar a switchToRecruiterView', async () => {
-    const { switchToRecruiterView } = require('@/contexts/ViewContext').useView();
     render(<Login />);
     
     const recruiterButton = screen.getByTestId('recruiter-button');
@@ -150,7 +152,7 @@ describe('Login Component - Focus Management', () => {
     fireEvent.keyDown(recruiterButton, { key: 'Enter' });
     fireEvent.click(recruiterButton);
     
-    expect(switchToRecruiterView).toHaveBeenCalled();
+    expect(mockSwitchToRecruiterView).toHaveBeenCalled();
   });
 
   test('la navegación debe ser cíclica (Tab en Dashboard vuelve a Candidatos)', async () => {
