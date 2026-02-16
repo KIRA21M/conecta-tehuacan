@@ -30,3 +30,4 @@ apps/frontend/node_modules/
 apps/frontend/.next/
 apps/frontend/out/
 apps/frontend/build/
+apps/frontend/package-lock.json
