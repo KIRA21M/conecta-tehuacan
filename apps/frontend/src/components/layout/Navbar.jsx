@@ -45,18 +45,18 @@ export default function Navbar() {
           e.preventDefault();
           newIndex = (activeIndex - 1 + totalItems) % totalItems;
           break;
-        case 'Enter':
+          case 'Enter':
           e.preventDefault();
           if (activeIndex === menuItems.length + 1) {
             // Botón de Iniciar Sesión
             setShowLoginOptions(!showLoginOptions);
           } else if (showLoginOptions && activeIndex === menuItems.length + 2) {
             // Opción Candidatos
-            switchToCandidateView();
+            switchToCandidateView(true);
             setShowLoginOptions(false);
           } else if (showLoginOptions && activeIndex === menuItems.length + 3) {
             // Opción Dashboard
-            switchToRecruiterView();
+            switchToRecruiterView(true);
             setShowLoginOptions(false);
           }
           break;
@@ -157,7 +157,7 @@ export default function Navbar() {
               <div className={styles.loginOptions} role="menu">
                 <button
                   className={styles.loginOption}
-                  onClick={switchToCandidateView}
+                  onClick={() => switchToCandidateView(true)}
                   role="menuitem"
                   ref={el => itemRefs.current[menuItems.length + 2] = el}
                   tabIndex={0}
@@ -167,7 +167,7 @@ export default function Navbar() {
                 </button>
                 <button
                   className={styles.loginOption}
-                  onClick={switchToRecruiterView}
+                  onClick={() => switchToRecruiterView(true)}
                   role="menuitem"
                   ref={el => itemRefs.current[menuItems.length + 3] = el}
                   tabIndex={0}

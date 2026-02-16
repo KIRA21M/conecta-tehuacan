@@ -34,11 +34,11 @@ export default function RecruiterSidebar({ onTabChange }) {
           e.preventDefault();
           newIndex = (focusedIndex - 1 + tabs.length + 1) % (tabs.length + 1);
           break;
-        case 'Enter':
+          case 'Enter':
         case ' ':
           e.preventDefault();
           if (focusedIndex === 0) {
-            switchToCandidateView();
+            switchToCandidateView(true);
           } else {
             const tabIndex = focusedIndex - 1;
             setActiveTab(tabs[tabIndex].name);
@@ -75,7 +75,7 @@ export default function RecruiterSidebar({ onTabChange }) {
       
       <button
         className={styles.toggleButton}
-        onClick={switchToCandidateView}
+        onClick={() => switchToCandidateView(true)}
         ref={el => itemRefs.current[0] = el}
         tabIndex={0}
         onFocus={() => setFocusedIndex(0)}
