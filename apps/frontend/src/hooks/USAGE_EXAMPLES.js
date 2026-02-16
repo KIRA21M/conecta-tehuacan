@@ -6,6 +6,8 @@
  * puedes adaptar a tus necesidades.
  */
 
+/* eslint-disable jsx-a11y/label-has-associated-control, jsx-a11y/no-noninteractive-element-to-interactive-role */
+
 // ============================================================================
 // EJEMPLO 1: Modal con Navegación de Teclado
 // ============================================================================

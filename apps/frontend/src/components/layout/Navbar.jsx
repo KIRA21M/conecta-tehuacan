@@ -116,12 +116,10 @@ export default function Navbar() {
           tabIndex={0}
           onFocus={() => setActiveIndex(0)}
         >
-          <img 
-            src="/logo.svg" 
-            alt="Conecta Tehuacán" 
-            width={321}
-            height={46}
-          />
+          <span className={styles.logoText}>
+            <span className={styles.logoConecta}>CONECTA</span>
+            <span className={styles.logoTehuacan}>TEHUACÁN</span>
+          </span>
         </Link>
 
         {/* Menú principal */}

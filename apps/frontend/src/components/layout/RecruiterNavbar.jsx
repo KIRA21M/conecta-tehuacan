@@ -92,7 +92,6 @@ export default function RecruiterNavbar() {
           <button
             className={styles.profileImage}
             ref={el => itemRefs.current[2] = el}
-            tabIndex={0}
             onFocus={() => setActiveIndex(2)}
             aria-label="Foto del empresario"
           >
