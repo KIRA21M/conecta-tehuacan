@@ -1,10 +1,10 @@
 # Dependencies
-node_modules/
+apps/frontend/node_modules/
 **/node_modules/
 package-lock.json
 
 # Next.js
-.next/
+apps/frontend/.next/
 **/.next/
 out/
 build/
@@ -30,4 +30,4 @@ apps/frontend/node_modules/
 apps/frontend/.next/
 apps/frontend/out/
 apps/frontend/build/
-apps/frontend/package-lock.json
+
