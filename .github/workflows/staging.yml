@@ -1,0 +1,39 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: Instalar Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependencias frontend
+        run: |
+          cd apps/frontend
+          npm install
+
+      - name: Build frontend
+        run: |
+          cd apps/frontend
+          npm run build
+
+      - name: Instalar dependencias backend
+        run: |
+          cd apps/backend
+          npm install
+
+      - name: Test backend
+        run: |
+          cd apps/backend
+          npm test
