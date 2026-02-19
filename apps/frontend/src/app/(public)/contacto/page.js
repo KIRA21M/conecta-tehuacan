@@ -1,4 +1,38 @@
+'use client';
+import { useState } from 'react';
+
 export default function ContactoPage() {
+  const [formData, setFormData] = useState({
+    nombre: '',
+    email: '',
+    asunto: '',
+    mensaje: ''
+  });
+  const [enviado, setEnviado] = useState(false);
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (formData.nombre && formData.email && formData.asunto && formData.mensaje) {
+      setEnviado(true);
+      setFormData({ nombre: '', email: '', asunto: '', mensaje: '' });
+      setTimeout(() => setEnviado(false), 3000);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      handleFormSubmit(e);
+    }
+  };
+
   return (
     <div style={{
       display: 'flex',
@@ -37,54 +71,106 @@ export default function ContactoPage() {
             </div>
 
             <nav>
-              <button tabIndex={-1} type="button" style={{
-                marginLeft: '20px',
-                textDecoration: 'none',
-                color: '#6B7280',
-                fontSize: '14px',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer'
-              }}>Contáctanos</button>
-              <button tabIndex={-1} type="button" style={{
-                marginLeft: '20px',
-                textDecoration: 'none',
-                color: '#6B7280',
-                fontSize: '14px',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer'
-              }}>Explorar Empleos</button>
-              <button tabIndex={-1} type="button" style={{
-                marginLeft: '20px',
-                textDecoration: 'none',
-                color: '#6B7280',
-                fontSize: '14px',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer'
-              }}>Sobre Nosotros</button>
-              <button tabIndex={-1} type="button" style={{
-                marginLeft: '20px',
-                textDecoration: 'none',
-                color: '#6B7280',
-                fontSize: '14px',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer'
-              }}>Iniciar Sesión</button>
-              <button tabIndex={-1} type="button" style={{
-                marginLeft: '20px',
-                background: '#2563EB',
-                color: '#ffffff',
-                padding: '8px 16px',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                transition: '0.3s',
-                fontSize: '14px'
-              }}>Crear Cuenta</button>
+              <button 
+                type="button" 
+                style={{
+                  marginLeft: '20px',
+                  textDecoration: 'none',
+                  color: '#6B7280',
+                  fontSize: '14px',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '8px 12px',
+                  borderRadius: '4px',
+                  transition: '0.2s',
+                  outline: 'none'
+                }}
+                onFocus={(e) => e.target.style.backgroundColor = '#f0f0f0'}
+                onBlur={(e) => e.target.style.backgroundColor = 'transparent'}
+              >
+                Contáctanos
+              </button>
+              <button 
+                type="button" 
+                style={{
+                  marginLeft: '20px',
+                  textDecoration: 'none',
+                  color: '#6B7280',
+                  fontSize: '14px',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '8px 12px',
+                  borderRadius: '4px',
+                  transition: '0.2s',
+                  outline: 'none'
+                }}
+                onFocus={(e) => e.target.style.backgroundColor = '#f0f0f0'}
+                onBlur={(e) => e.target.style.backgroundColor = 'transparent'}
+              >
+                Explorar Empleos
+              </button>
+              <button 
+                type="button" 
+                style={{
+                  marginLeft: '20px',
+                  textDecoration: 'none',
+                  color: '#6B7280',
+                  fontSize: '14px',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '8px 12px',
+                  borderRadius: '4px',
+                  transition: '0.2s',
+                  outline: 'none'
+                }}
+                onFocus={(e) => e.target.style.backgroundColor = '#f0f0f0'}
+                onBlur={(e) => e.target.style.backgroundColor = 'transparent'}
+              >
+                Sobre Nosotros
+              </button>
+              <button 
+                type="button" 
+                style={{
+                  marginLeft: '20px',
+                  textDecoration: 'none',
+                  color: '#6B7280',
+                  fontSize: '14px',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '8px 12px',
+                  borderRadius: '4px',
+                  transition: '0.2s',
+                  outline: 'none'
+                }}
+                onFocus={(e) => e.target.style.backgroundColor = '#f0f0f0'}
+                onBlur={(e) => e.target.style.backgroundColor = 'transparent'}
+              >
+                Iniciar Sesión
+              </button>
+              <button 
+                type="button" 
+                style={{
+                  marginLeft: '20px',
+                  background: '#2563EB',
+                  color: '#ffffff',
+                  padding: '8px 16px',
+                  borderRadius: '8px',
+                  textDecoration: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: '0.3s',
+                  fontSize: '14px',
+                  outline: 'none'
+                }}
+                onFocus={(e) => e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.3)'}
+                onBlur={(e) => e.target.style.boxShadow = 'none'}
+              >
+                Crear Cuenta
+              </button>
             </nav>
           </div>
         </div>
@@ -181,7 +267,7 @@ export default function ContactoPage() {
             borderRadius: '16px',
             boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)'
           }}>
-            <form>
+            <form onSubmit={handleFormSubmit}>
               <div style={{
                 display: 'flex',
                 gap: '20px',
@@ -190,18 +276,41 @@ export default function ContactoPage() {
                 <div style={{
                   flex: 1
                 }}>
-                  <label htmlFor="name" style={{
+                  <label htmlFor="nombre" style={{
                     display: 'block',
                     marginBottom: '5px',
-                    fontSize: '14px'
+                    fontSize: '14px',
+                    fontWeight: '500'
                   }}>Nombre completo</label>
-                  <input id="name" type="text" readOnly style={{
-                    width: '100%',
-                    padding: '10px',
-                    borderRadius: '8px',
-                    border: '1px solid #e5e7eb',
-                    background: '#f9fafb'
-                  }} />
+                  <input 
+                    id="nombre" 
+                    type="text" 
+                    value={formData.nombre}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Tu nombre completo"
+                    style={{
+                      width: '100%',
+                      padding: '10px',
+                      borderRadius: '8px',
+                      border: '1px solid #e5e7eb',
+                      background: '#f9fafb',
+                      fontSize: '14px',
+                      fontFamily: 'inherit',
+                      transition: '0.2s',
+                      boxSizing: 'border-box'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.border = '2px solid #2563EB';
+                      e.target.style.background = '#ffffff';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.border = '1px solid #e5e7eb';
+                      e.target.style.background = '#f9fafb';
+                      e.target.style.boxShadow = 'none';
+                    }}
+                  />
                 </div>
 
                 <div style={{
@@ -210,64 +319,163 @@ export default function ContactoPage() {
                   <label htmlFor="email" style={{
                     display: 'block',
                     marginBottom: '5px',
-                    fontSize: '14px'
+                    fontSize: '14px',
+                    fontWeight: '500'
                   }}>Correo Electrónico</label>
-                  <input id="email" type="email" readOnly style={{
-                    width: '100%',
-                    padding: '10px',
-                    borderRadius: '8px',
-                    border: '1px solid #e5e7eb',
-                    background: '#f9fafb'
-                  }} />
+                  <input 
+                    id="email" 
+                    type="email" 
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
+                    placeholder="correo@ejemplo.com"
+                    style={{
+                      width: '100%',
+                      padding: '10px',
+                      borderRadius: '8px',
+                      border: '1px solid #e5e7eb',
+                      background: '#f9fafb',
+                      fontSize: '14px',
+                      fontFamily: 'inherit',
+                      transition: '0.2s',
+                      boxSizing: 'border-box'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.border = '2px solid #2563EB';
+                      e.target.style.background = '#ffffff';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.1)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.border = '1px solid #e5e7eb';
+                      e.target.style.background = '#f9fafb';
+                      e.target.style.boxShadow = 'none';
+                    }}
+                  />
                 </div>
               </div>
 
               <div style={{
                 marginBottom: '20px'
               }}>
-                <label htmlFor="subject" style={{
+                <label htmlFor="asunto" style={{
                   display: 'block',
                   marginBottom: '5px',
-                  fontSize: '14px'
+                  fontSize: '14px',
+                  fontWeight: '500'
                 }}>Asunto</label>
-                <input id="subject" type="text" readOnly style={{
-                  width: '100%',
-                  padding: '10px',
-                  borderRadius: '8px',
-                  border: '1px solid #e5e7eb',
-                  background: '#f9fafb'
-                }} />
+                <input 
+                  id="asunto" 
+                  type="text" 
+                  value={formData.asunto}
+                  onChange={handleInputChange}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Asunto de tu mensaje"
+                  style={{
+                    width: '100%',
+                    padding: '10px',
+                    borderRadius: '8px',
+                    border: '1px solid #e5e7eb',
+                    background: '#f9fafb',
+                    fontSize: '14px',
+                    fontFamily: 'inherit',
+                    transition: '0.2s',
+                    boxSizing: 'border-box'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.border = '2px solid #2563EB';
+                    e.target.style.background = '#ffffff';
+                    e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.border = '1px solid #e5e7eb';
+                    e.target.style.background = '#f9fafb';
+                    e.target.style.boxShadow = 'none';
+                  }}
+                />
               </div>
 
               <div style={{
                 marginBottom: '20px'
               }}>
-                <label htmlFor="message" style={{
+                <label htmlFor="mensaje" style={{
                   display: 'block',
                   marginBottom: '5px',
-                  fontSize: '14px'
+                  fontSize: '14px',
+                  fontWeight: '500'
                 }}>Tu Mensaje</label>
-                <textarea id="message" rows="5" readOnly style={{
-                  width: '100%',
-                  padding: '10px',
-                  borderRadius: '8px',
-                  border: '1px solid #e5e7eb',
-                  background: '#f9fafb',
-                  resize: 'none'
-                }}></textarea>
+                <textarea 
+                  id="mensaje" 
+                  rows="5" 
+                  value={formData.mensaje}
+                  onChange={handleInputChange}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Escribe tu mensaje aquí..."
+                  style={{
+                    width: '100%',
+                    padding: '10px',
+                    borderRadius: '8px',
+                    border: '1px solid #e5e7eb',
+                    background: '#f9fafb',
+                    resize: 'vertical',
+                    fontSize: '14px',
+                    fontFamily: 'inherit',
+                    transition: '0.2s',
+                    minHeight: '120px',
+                    boxSizing: 'border-box'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.border = '2px solid #2563EB';
+                    e.target.style.background = '#ffffff';
+                    e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.border = '1px solid #e5e7eb';
+                    e.target.style.background = '#f9fafb';
+                    e.target.style.boxShadow = 'none';
+                  }}
+                ></textarea>
               </div>
 
-              <button type="button" tabIndex={-1} style={{
-                width: '100%',
-                background: '#2563EB',
-                color: '#ffffff',
-                padding: '12px',
-                borderRadius: '8px',
-                border: 'none',
-                cursor: 'pointer',
-                transition: '0.3s',
-                fontSize: '16px'
-              }}>Enviar mensaje</button>
+              {enviado && (
+                <div style={{
+                  padding: '12px',
+                  marginBottom: '15px',
+                  backgroundColor: '#d1fae5',
+                  border: '1px solid #6ee7b7',
+                  borderRadius: '8px',
+                  color: '#065f46',
+                  fontSize: '14px'
+                }}>
+                  ✓ Mensaje enviado correctamente. Nos pondremos en contacto pronto.
+                </div>
+              )}
+
+              <button 
+                type="submit" 
+                style={{
+                  width: '100%',
+                  background: '#2563EB',
+                  color: '#ffffff',
+                  padding: '12px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: '0.3s',
+                  fontSize: '16px',
+                  fontWeight: '500',
+                  outline: 'none'
+                }}
+                onFocus={(e) => {
+                  e.target.style.background = '#1d4ed8';
+                  e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.3)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.background = '#2563EB';
+                  e.target.style.boxShadow = 'none';
+                }}
+              >
+                Enviar mensaje (Ctrl+Enter)
+              </button>
             </form>
           </div>
 

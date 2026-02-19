@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { useView } from '@/contexts/ViewContext';
 import styles from './RecruiterSidebar.module.css';
 
@@ -9,6 +10,7 @@ export default function RecruiterSidebar({ onTabChange }) {
   const [activeTab, setActiveTab] = useState('Candidatos');
   const [focusedIndex, setFocusedIndex] = useState(0);
   const itemRefs = useRef([]);
+  const router = useRouter();
 
   const tabs = [
     { name: 'Mis vacantes', description: 'Creación y edición de ofertas laborales' },
@@ -16,6 +18,13 @@ export default function RecruiterSidebar({ onTabChange }) {
     { name: 'Mensajes', description: 'Comunicación directa con aplicantes' },
     { name: 'Perfil empresa', description: 'Configuración de datos corporativos y logo' }
   ];
+
+  const handleLogout = () => {
+    // Limpiar sesión
+    localStorage.removeItem('user');
+    // Redirigir a login
+    router.push('/login');
+  };
 
   useEffect(() => {
     itemRefs.current = itemRefs.current.slice(0, tabs.length + 1);
@@ -102,6 +111,20 @@ export default function RecruiterSidebar({ onTabChange }) {
           </div>
         </button>
       ))}
+
+      <div style={{ flex: 1 }}></div>
+
+      <button
+        className={styles.logoutButton}
+        onClick={handleLogout}
+        ref={el => itemRefs.current[tabs.length + 1] = el}
+        tabIndex={0}
+        onFocus={() => setFocusedIndex(tabs.length + 1)}
+        aria-label="Cerrar sesión"
+      >
+        <span style={{ fontSize: '1.2rem', marginRight: '10px' }}>🚪</span>
+        Cerrar Sesión
+      </button>
     </aside>
   );
 }

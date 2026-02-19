@@ -1,27 +1,20 @@
-# Etapa 1: Builder 
-FROM node:18-alpine AS builder
+# Usamos la versión ligera de Node
+FROM node:20-alpine
 
+# Establecemos el directorio de trabajo
 WORKDIR /app
 
-COPY package.json package-lock.json ./
-RUN npm ci
+# Copiamos solo los archivos de dependencias para aprovechar la caché de Docker
+COPY package*.json ./
 
+# Instalamos TODAS las dependencias (incluyendo devDependencies para que rinda el modo dev)
+RUN npm install
+
+# Copiamos el resto del código
 COPY . .
 
-RUN npm run build
-
-# Etapa 2: Runner 
-FROM node:18-alpine AS runner
-
-WORKDIR /app
-
-ENV NODE_ENV=production
-
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/node_modules ./node_modules
-
+# Exponemos el puerto de Next.js
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+# Iniciamos en modo desarrollo directamente
+CMD ["npm", "run", "dev"]

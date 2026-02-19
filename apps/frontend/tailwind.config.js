@@ -1,16 +1,27 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
-        'blue-primary': '#2563EB',
-        'slate-dark': '#0F172A',
-        'gray-light': '#F3F4F6',
+        primary: {
+          DEFAULT: '#2563EB', // Blue from design
+          hover: '#1D4ED8',
+        },
+        secondary: {
+          DEFAULT: '#F3F4F6',
+          dark: '#111827', // Footer background
+        },
+        border: '#E5E7EB',
+      },
+      borderRadius: {
+        'xl': '12px',
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
       },
     },
   },
