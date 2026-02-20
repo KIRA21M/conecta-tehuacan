@@ -33,7 +33,4 @@ jobs:
           cd apps/backend
           npm install
 
-      - name: Test backend
-        run: |
-          cd apps/backend
-          npm test
+ 

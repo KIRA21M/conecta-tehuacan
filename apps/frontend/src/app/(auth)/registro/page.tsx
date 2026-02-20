@@ -2,12 +2,14 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Radio } from '@/components/ui/Radio';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { authAPI } from '@/services/api';
 
 export default function RegistroPage() {
     const [formData, setFormData] = useState({
@@ -18,6 +20,8 @@ export default function RegistroPage() {
         rol: 'aspirante'
     });
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const router = useRouter();
 
     // Refs for navigation
     const nombreRef = useRef<HTMLInputElement>(null);
@@ -39,10 +43,32 @@ export default function RegistroPage() {
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError('');
+        
+        if (formData.password !== formData.confirmPassword) {
+            setError('Las contraseñas no coinciden');
+            return;
+        }
+
         setLoading(true);
-        setTimeout(() => setLoading(false), 1500);
+        try {
+            const response = await authAPI.register(formData);
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+            
+            // Redirigir según el rol
+            if (formData.rol === 'aspirante') {
+                router.push('/dashboard');
+            } else {
+                router.push('/recruiter');
+            }
+        } catch (err: any) {
+            setError(err.message || 'Error al registrarse');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -62,6 +88,11 @@ export default function RegistroPage() {
                     </div>
 
                     <form onSubmit={handleSubmit} className="w-full space-y-5">
+                        {error && (
+                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded" role="alert">
+                                {error}
+                            </div>
+                        )}
                         <Input
                             ref={nombreRef}
                             id="nombre"

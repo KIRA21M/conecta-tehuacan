@@ -2,16 +2,20 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { authAPI } from '@/services/api';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const router = useRouter();
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const submitRef = useRef<HTMLButtonElement>(null);
@@ -34,11 +38,27 @@ export default function LoginPage() {
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError('');
         setLoading(true);
-        // Simulating login
-        setTimeout(() => setLoading(false), 1500);
+        
+        try {
+            const response = await authAPI.login(email, password);
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+            
+            // Redirigir según el rol
+            if (response.data.user.role === 'aspirante') {
+                router.push('/dashboard');
+            } else {
+                router.push('/recruiter');
+            }
+        } catch (err: any) {
+            setError(err.message || 'Error al iniciar sesión');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -58,6 +78,11 @@ export default function LoginPage() {
                     </div>
 
                     <form onSubmit={handleSubmit} className="w-full space-y-6">
+                        {error && (
+                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded" role="alert">
+                                {error}
+                            </div>
+                        )}
                         <Input
                             ref={emailRef}
                             id="email"

@@ -7,37 +7,29 @@ import RecruiterSidebar from '@/components/layout/RecruiterSidebar';
 import styles from './recruiter.module.css';
 
 export default function Recruiter() {
-  const { view } = useView();
+  const { view, switchToRecruiterView } = useView();
   const [activeTab, setActiveTab] = useState('Mis vacantes');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    // Verificar autenticación
     const checkAuth = () => {
       try {
         const user = localStorage.getItem('user');
         if (!user) {
-          // No hay sesión, redirigir a login
           router.push('/login');
           return;
         }
 
         const userData = JSON.parse(user);
-        if (!userData.isAuthenticated) {
-          // Usuario no autenticado, redirigir a login
-          router.push('/login');
-          return;
-        }
-
+        
         // Verificar que sea reclutador
-        if (userData.role !== 'recruiter') {
-          router.push('/dashboard'); // Redirigir a dashboard si no es reclutador
+        if (userData.role !== 'reclutador') {
+          router.push('/dashboard');
           return;
         }
 
-        // Usuario autenticado como reclutador
         setIsAuthenticated(true);
         setLoading(false);
       } catch (error) {
@@ -48,6 +40,12 @@ export default function Recruiter() {
 
     checkAuth();
   }, [router]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      switchToRecruiterView();
+    }
+  }, [isAuthenticated, switchToRecruiterView]);
 
   // Mostrar pantalla de carga mientras verifica autenticación
   if (loading) {
@@ -81,10 +79,6 @@ export default function Recruiter() {
 
   // Si no está autenticado, no mostrar nada (ya se redirigió)
   if (!isAuthenticated) {
-    return null;
-  }
-
-  if (view !== 'recruiter') {
     return null;
   }
 

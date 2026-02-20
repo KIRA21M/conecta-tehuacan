@@ -1,18 +1,18 @@
+'use client';
+
 import { Inter } from 'next/font/google';
 import '@/styles/globals.css';
+import { ViewProvider } from '@/contexts/ViewContext';
 
 const inter = Inter({ subsets: ['latin'] });
-
-export const metadata = {
-    title: 'Conecta Tehuacan',
-    description: 'Plataforma de conexion laboral para Tehuacan',
-};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="es">
             <body className={inter.className}>
-                {children}
+                <ViewProvider>
+                    {children}
+                </ViewProvider>
             </body>
         </html>
     );
