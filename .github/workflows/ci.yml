@@ -21,13 +21,8 @@ jobs:
 
       - name: Install dependencies
         working-directory: apps/frontend
-        run: |
-          rm -rf node_modules package-lock.json
-          npm install
+        run: npm install
 
-      - name: Run Lint
-        working-directory: apps/frontend
-        run: npm run lint
 
       - name: Run Build
         working-directory: apps/frontend

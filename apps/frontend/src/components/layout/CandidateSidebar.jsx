@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { useView } from '@/contexts/ViewContext';
 import styles from './CandidateSidebar.module.css';
 
@@ -9,12 +10,20 @@ export default function CandidateSidebar({ onTabChange }) {
   const [activeTab, setActiveTab] = useState('Mi perfil');
   const [focusedIndex, setFocusedIndex] = useState(0);
   const itemRefs = useRef([]);
+  const router = useRouter();
 
   const tabs = [
     { name: 'Mi perfil', description: 'Gestión de información personal y profesional', icon: '👤' },
     { name: 'Mis postulaciones', description: 'Historial y estado de vacantes aplicadas', icon: '📄' },
     { name: 'Mis favoritos', description: 'Guardado de vacantes de interés', icon: '⭐' }
   ];
+
+  const handleLogout = () => {
+    // Limpiar sesión
+    localStorage.removeItem('user');
+    // Redirigir a login
+    router.push('/login');
+  };
 
   useEffect(() => {
     itemRefs.current = itemRefs.current.slice(0, tabs.length + 1);
@@ -104,6 +113,20 @@ export default function CandidateSidebar({ onTabChange }) {
           </div>
         </button>
       ))}
+
+      <div style={{ flex: 1 }}></div>
+
+      <button
+        className={styles.logoutButton}
+        onClick={handleLogout}
+        ref={el => itemRefs.current[tabs.length + 1] = el}
+        tabIndex={0}
+        onFocus={() => setFocusedIndex(tabs.length + 1)}
+        aria-label="Cerrar sesión"
+      >
+        <span style={{ fontSize: '1.2rem', marginRight: '10px' }}>🚪</span>
+        Cerrar Sesión
+      </button>
     </aside>
   );
 }

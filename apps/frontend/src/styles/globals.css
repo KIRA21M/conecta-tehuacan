@@ -38,6 +38,7 @@ body {
 
 /* Ensure main content doesn't go behind sidebar */
 .main-content {
+  width: 100%;
   margin-left: var(--sidebar-width);
   margin-top: var(--navbar-height);
   padding: 2rem;
