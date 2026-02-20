@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useView } from '@/contexts/ViewContext';
 import styles from './CandidateNavbar.module.css';
 
@@ -69,7 +70,7 @@ export default function CandidateNavbar() {
             tabIndex={0}
             onFocus={() => setActiveIndex(0)}
           >
-            <img 
+            <Image 
               src="/logo.svg" 
               alt="Conecta Tehuacán" 
               width={321}

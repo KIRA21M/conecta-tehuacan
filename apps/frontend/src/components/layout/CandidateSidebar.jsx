@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useView } from '@/contexts/ViewContext';
 import styles from './CandidateSidebar.module.css';
@@ -12,11 +12,11 @@ export default function CandidateSidebar({ onTabChange }) {
   const itemRefs = useRef([]);
   const router = useRouter();
 
-  const tabs = [
+  const tabs = useMemo(() => [
     { name: 'Mi perfil', description: 'Gestión de información personal y profesional', icon: '👤' },
     { name: 'Mis postulaciones', description: 'Historial y estado de vacantes aplicadas', icon: '📄' },
     { name: 'Mis favoritos', description: 'Guardado de vacantes de interés', icon: '⭐' }
-  ];
+  ], []);
 
   const handleLogout = () => {
     // Limpiar sesión
@@ -69,7 +69,7 @@ export default function CandidateSidebar({ onTabChange }) {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [focusedIndex, tabs.length]);
+  }, [focusedIndex, tabs, onTabChange, switchToRecruiterView]);
 
   useEffect(() => {
     if (itemRefs.current[focusedIndex]) {

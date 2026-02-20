@@ -13,10 +13,10 @@ export default function ContactoPage() {
   const [enviado, setEnviado] = useState(false);
 
   const handleInputChange = (e) => {
-    const { id, value } = e.target;
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [id]: value
+      [name]: value
     }));
   };
 
@@ -259,6 +259,7 @@ export default function ContactoPage() {
                   }}>Nombre completo</label>
                   <input 
                     id="nombre" 
+                    name="nombre"
                     type="text" 
                     value={formData.nombre}
                     onChange={handleInputChange}
@@ -299,6 +300,7 @@ export default function ContactoPage() {
                   }}>Correo Electrónico</label>
                   <input 
                     id="email" 
+                    name="email"
                     type="email" 
                     value={formData.email}
                     onChange={handleInputChange}
@@ -340,6 +342,7 @@ export default function ContactoPage() {
                 }}>Asunto</label>
                 <input 
                   id="asunto" 
+                  name="asunto"
                   type="text" 
                   value={formData.asunto}
                   onChange={handleInputChange}
@@ -380,6 +383,7 @@ export default function ContactoPage() {
                 }}>Tu Mensaje</label>
                 <textarea 
                   id="mensaje" 
+                  name="mensaje"
                   rows="5" 
                   value={formData.mensaje}
                   onChange={handleInputChange}

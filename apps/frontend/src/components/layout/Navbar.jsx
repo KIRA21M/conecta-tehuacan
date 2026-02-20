@@ -30,7 +30,7 @@ export default function Navbar() {
       // Si se abrió el dropdown desde el botón, mover foco a la primera opción
       setTimeout(() => setActiveIndex(menuItems.length + 2), 0);
     }
-  }, [showLoginOptions, menuItems.length]);
+  }, [showLoginOptions, menuItems.length, activeIndex]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {

@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useView } from '@/contexts/ViewContext';
-import { useRouter } from 'next/navigation';
 import styles from './AuthenticatedNavbar.module.css';
 
 export default function AuthenticatedNavbar() {
@@ -14,12 +14,12 @@ export default function AuthenticatedNavbar() {
   const itemRefs = useRef([]);
   const searchInputRef = useRef(null);
 
-  const navItems = [
+  const navItems = useMemo(() => [
     { id: 'logo', type: 'logo', label: 'CONECTA TEHUACÁN', href: '/' },
     { id: 'search', type: 'search' },
     { id: 'empleos', type: 'link', label: 'Explorar Empleos', href: '/empleos' },
     { id: 'avatar', type: 'avatar' },
-  ];
+  ], []);
 
   const handleLogout = () => {
     setView('public');
@@ -107,7 +107,7 @@ export default function AuthenticatedNavbar() {
           onFocus={() => setActiveIndex(0)}
           tabIndex={0}
         >
-          <img src="/logo.svg" alt="CONECTA TEHUACÁN" className={styles.logoImage} />
+          <Image src="/logo.svg" alt="CONECTA TEHUACÁN" width={200} height={40} className={styles.logoImage} />
         </Link>
 
         {/* Buscador */}
