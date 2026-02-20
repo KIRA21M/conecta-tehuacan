@@ -43,6 +43,9 @@ body {
   margin-top: var(--navbar-height);
   padding: 2rem;
   min-height: calc(100vh - var(--navbar-height));
+  position: relative;
+  z-index: 1;
+  background-color: #FBFBFB;
 }
 
 @media (max-width: 1728px) {
