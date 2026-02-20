@@ -20,10 +20,10 @@ export const Footer = () => {
                 <div className="flex flex-col gap-4">
                     <h4 className="text-[17px] font-bold">Contáctanos</h4>
                     <div className="flex gap-6">
-                        <a href="#" className="text-white hover:text-primary transition-all hover:scale-110" aria-label="Facebook">
+                        <a href="https://facebook.com" className="text-white hover:text-primary transition-all hover:scale-110" aria-label="Facebook">
                             <Facebook size={24} />
                         </a>
-                        <a href="#" className="text-white hover:text-primary transition-all hover:scale-110" aria-label="Instagram">
+                        <a href="https://instagram.com" className="text-white hover:text-primary transition-all hover:scale-110" aria-label="Instagram">
                             <Instagram size={24} />
                         </a>
                     </div>

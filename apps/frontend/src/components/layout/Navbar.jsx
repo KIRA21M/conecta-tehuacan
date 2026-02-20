@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useView } from '@/contexts/ViewContext';
 import styles from './Navbar.module.css';
 
@@ -29,7 +30,7 @@ export default function Navbar() {
       // Si se abrió el dropdown desde el botón, mover foco a la primera opción
       setTimeout(() => setActiveIndex(menuItems.length + 2), 0);
     }
-  }, [showLoginOptions, menuItems.length]);
+  }, [showLoginOptions, menuItems.length, activeIndex]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -116,10 +117,7 @@ export default function Navbar() {
           tabIndex={0}
           onFocus={() => setActiveIndex(0)}
         >
-          <span className={styles.logoText}>
-            <span className={styles.logoConecta}>CONECTA</span>
-            <span className={styles.logoTehuacan}>TEHUACÁN</span>
-          </span>
+          <Image src="/logo.svg" alt="Conecta Tehuacán" width={200} height={40} priority />
         </Link>
 
         {/* Menú principal */}

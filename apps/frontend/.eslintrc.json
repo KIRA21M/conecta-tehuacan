@@ -12,11 +12,15 @@
     "jsx-a11y/aria-proptypes": "error",
     "jsx-a11y/role-has-required-aria-props": "error",
     "jsx-a11y/no-autofocus": "warn",
+    "jsx-a11y/anchor-is-valid": "error",
     "jsx-a11y/label-has-associated-control": [
       "error",
       {
         "assert": "both"
       }
-    ]
+    ],
+    "react/display-name": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "@next/next/no-img-element": "warn"
   }
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useView } from '@/contexts/ViewContext';
 import styles from './RecruiterSidebar.module.css';
@@ -12,12 +12,12 @@ export default function RecruiterSidebar({ onTabChange }) {
   const itemRefs = useRef([]);
   const router = useRouter();
 
-  const tabs = [
+  const tabs = useMemo(() => [
     { name: 'Mis vacantes', description: 'Creación y edición de ofertas laborales' },
     { name: 'Candidatos', description: 'Revisión de perfiles que aplicaron a las vacantes' },
     { name: 'Mensajes', description: 'Comunicación directa con aplicantes' },
     { name: 'Perfil empresa', description: 'Configuración de datos corporativos y logo' }
-  ];
+  ], []);
 
   const handleLogout = () => {
     // Limpiar sesión
@@ -70,7 +70,7 @@ export default function RecruiterSidebar({ onTabChange }) {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [focusedIndex, tabs.length]);
+  }, [focusedIndex, tabs, onTabChange, switchToCandidateView]);
 
   useEffect(() => {
     if (itemRefs.current[focusedIndex]) {

@@ -1,5 +1,7 @@
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function ContactoPage() {
   const [formData, setFormData] = useState({
@@ -11,10 +13,10 @@ export default function ContactoPage() {
   const [enviado, setEnviado] = useState(false);
 
   const handleInputChange = (e) => {
-    const { id, value } = e.target;
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [id]: value
+      [name]: value
     }));
   };
 
@@ -45,7 +47,6 @@ export default function ContactoPage() {
       backgroundColor: '#F3F4F6',
       color: '#111827'
     }}>
-      {/* eslint-disable jsx-a11y/label-has-associated-control, jsx-a11y/anchor-is-valid */}
       {/* HEADER */}
       <header style={{
         background: '#ffffff',
@@ -62,97 +63,76 @@ export default function ContactoPage() {
             justifyContent: 'space-between',
             alignItems: 'center'
           }}>
-            <div style={{
+            <Link href="/" style={{
               fontWeight: 'bold',
-              fontSize: '20px'
+              fontSize: '20px',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px'
             }}>
-              <span style={{ color: '#111827' }}>CONECTA</span>
-              <span style={{ color: '#2563EB' }}>TEHUACÁN</span>
-            </div>
+              <Image src="/logo.svg" alt="Conecta Tehuacán" width={200} height={40} />
+            </Link>
 
             <nav>
-              <button 
-                type="button" 
+              <Link 
+                href="/contacto"
                 style={{
                   marginLeft: '20px',
                   textDecoration: 'none',
                   color: '#6B7280',
                   fontSize: '14px',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
                   padding: '8px 12px',
                   borderRadius: '4px',
-                  transition: '0.2s',
-                  outline: 'none'
+                  transition: '0.2s'
                 }}
-                onFocus={(e) => e.target.style.backgroundColor = '#f0f0f0'}
-                onBlur={(e) => e.target.style.backgroundColor = 'transparent'}
               >
                 Contáctanos
-              </button>
-              <button 
-                type="button" 
+              </Link>
+              <Link 
+                href="/empleos"
                 style={{
                   marginLeft: '20px',
                   textDecoration: 'none',
                   color: '#6B7280',
                   fontSize: '14px',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
                   padding: '8px 12px',
                   borderRadius: '4px',
-                  transition: '0.2s',
-                  outline: 'none'
+                  transition: '0.2s'
                 }}
-                onFocus={(e) => e.target.style.backgroundColor = '#f0f0f0'}
-                onBlur={(e) => e.target.style.backgroundColor = 'transparent'}
               >
                 Explorar Empleos
-              </button>
-              <button 
-                type="button" 
+              </Link>
+              <Link 
+                href="/nosotros"
                 style={{
                   marginLeft: '20px',
                   textDecoration: 'none',
                   color: '#6B7280',
                   fontSize: '14px',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
                   padding: '8px 12px',
                   borderRadius: '4px',
-                  transition: '0.2s',
-                  outline: 'none'
+                  transition: '0.2s'
                 }}
-                onFocus={(e) => e.target.style.backgroundColor = '#f0f0f0'}
-                onBlur={(e) => e.target.style.backgroundColor = 'transparent'}
               >
                 Sobre Nosotros
-              </button>
-              <button 
-                type="button" 
+              </Link>
+              <Link 
+                href="/login"
                 style={{
                   marginLeft: '20px',
                   textDecoration: 'none',
                   color: '#6B7280',
                   fontSize: '14px',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
                   padding: '8px 12px',
                   borderRadius: '4px',
-                  transition: '0.2s',
-                  outline: 'none'
+                  transition: '0.2s'
                 }}
-                onFocus={(e) => e.target.style.backgroundColor = '#f0f0f0'}
-                onBlur={(e) => e.target.style.backgroundColor = 'transparent'}
               >
                 Iniciar Sesión
-              </button>
-              <button 
-                type="button" 
+              </Link>
+              <Link 
+                href="/registro"
                 style={{
                   marginLeft: '20px',
                   background: '#2563EB',
@@ -160,17 +140,12 @@ export default function ContactoPage() {
                   padding: '8px 16px',
                   borderRadius: '8px',
                   textDecoration: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  transition: '0.3s',
                   fontSize: '14px',
-                  outline: 'none'
+                  transition: '0.3s'
                 }}
-                onFocus={(e) => e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.3)'}
-                onBlur={(e) => e.target.style.boxShadow = 'none'}
               >
                 Crear Cuenta
-              </button>
+              </Link>
             </nav>
           </div>
         </div>
@@ -284,6 +259,7 @@ export default function ContactoPage() {
                   }}>Nombre completo</label>
                   <input 
                     id="nombre" 
+                    name="nombre"
                     type="text" 
                     value={formData.nombre}
                     onChange={handleInputChange}
@@ -324,6 +300,7 @@ export default function ContactoPage() {
                   }}>Correo Electrónico</label>
                   <input 
                     id="email" 
+                    name="email"
                     type="email" 
                     value={formData.email}
                     onChange={handleInputChange}
@@ -365,6 +342,7 @@ export default function ContactoPage() {
                 }}>Asunto</label>
                 <input 
                   id="asunto" 
+                  name="asunto"
                   type="text" 
                   value={formData.asunto}
                   onChange={handleInputChange}
@@ -405,6 +383,7 @@ export default function ContactoPage() {
                 }}>Tu Mensaje</label>
                 <textarea 
                   id="mensaje" 
+                  name="mensaje"
                   rows="5" 
                   value={formData.mensaje}
                   onChange={handleInputChange}
