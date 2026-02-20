@@ -1,16 +1,48 @@
 services:
+  mysql:
+    image: mysql:8.0
+    container_name: conecta-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: conecta_db
+      MYSQL_USER: conecta_user
+      MYSQL_PASSWORD: conecta_pass
+      TZ: America/Mexico_City
+    ports:
+      - "3307:3306"
+    volumes:
+      - conecta-mysql-data:/var/lib/mysql
+    networks:
+      - conecta-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
   backend:
     image: node:18
     container_name: conecta-backend
     working_dir: /app
     volumes:
       - ../apps/backend:/app
-    command: sh -c "npm install && npm start"
+    command: ["sh", "-c", "npm install && npm start"]
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=development
-      - PORT=3000
+      NODE_ENV: development
+      PORT: 3000
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: conecta_db
+      DB_USER: conecta_user
+      DB_PASSWORD: conecta_pass
+      JWT_SECRET: super_secret_key
+      JWT_EXPIRES_IN: 2h
+    depends_on:
+      mysql:
+        condition: service_healthy
     networks:
       - conecta-network
 
@@ -20,15 +52,35 @@ services:
     working_dir: /app
     volumes:
       - ../apps/frontend:/app
-    command: sh -c "npm install && npm run dev -- --host"
+      - conecta-frontend-node_modules:/app/node_modules
+    command: ["sh", "-c", "npm install && npm run dev -- --host"]
     ports:
       - "5173:5173"
     environment:
-      - VITE_API_URL=http://localhost:3000
+      VITE_API_URL: http://localhost:3000
     depends_on:
       - backend
     networks:
       - conecta-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: conecta-phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 0
+    depends_on:
+      - mysql
+    networks:
+      - conecta-network
+
+volumes:
+  conecta-mysql-data:
+  conecta-frontend-node_modules:
 
 networks:
   conecta-network:
