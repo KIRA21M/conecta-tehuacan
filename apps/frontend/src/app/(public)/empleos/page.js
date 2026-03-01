@@ -39,9 +39,13 @@ function SkeletonCard() {
 
 function JobCard({ empleo, index }) {
   const [visible, setVisible] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), index * 150);
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const timer = setTimeout(() => setVisible(true), prefersReducedMotion ? 0 : index * 150);
     return () => clearTimeout(timer);
   }, [index]);
 
@@ -57,9 +61,9 @@ function JobCard({ empleo, index }) {
       marginBottom: '16px',
       cursor: 'pointer',
       boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
-      transition: 'opacity 0.5s ease, transform 0.5s ease, box-shadow 0.2s ease',
-      opacity: visible ? 1 : 0,
-      transform: visible ? 'translateY(0)' : 'translateY(20px)',
+      transition: prefersReducedMotion ? 'none' : 'opacity 0.5s ease, transform 0.5s ease, box-shadow 0.2s ease',
+      opacity: prefersReducedMotion ? 1 : (visible ? 1 : 0),
+      transform: prefersReducedMotion ? 'none' : (visible ? 'translateY(0)' : 'translateY(20px)'),
     }}
       onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)'}
       onMouseLeave={e => e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.04)'}
@@ -115,6 +119,9 @@ export default function Empleos() {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.4; }
         }
+        @media (prefers-reduced-motion: reduce) {
+          * { animation: none !important; transition: none !important; }
+        }
       `}</style>
 
       {/* HEADER */}
@@ -125,7 +132,7 @@ export default function Empleos() {
           </Link>
           <nav>
             <Link href="/contacto" style={{ marginLeft: '20px', textDecoration: 'none', color: '#6B7280', fontSize: '14px' }}>Contáctanos</Link>
-            <Link href="/empleos" style={{ marginLeft: '20px', textDecoration: 'none', color: '#6B7280', fontSize: '14px', fontWeight: '600' }}>Explorar Empleos</Link>
+            <Link href="/empleos" style={{ marginLeft: '20px', textDecoration: 'none', color: '#2563EB', fontSize: '14px', fontWeight: '600' }}>Explorar Empleos</Link>
             <Link href="/nosotros" style={{ marginLeft: '20px', textDecoration: 'none', color: '#6B7280', fontSize: '14px' }}>Sobre Nosotros</Link>
             <Link href="/login" style={{ marginLeft: '20px', textDecoration: 'none', color: '#6B7280', fontSize: '14px' }}>Iniciar Sesión</Link>
             <Link href="/registro" style={{ marginLeft: '20px', background: '#2563EB', color: '#ffffff', padding: '8px 16px', borderRadius: '8px', textDecoration: 'none', fontSize: '14px' }}>Crear Cuenta</Link>
@@ -160,8 +167,6 @@ export default function Empleos() {
       {/* CONTENIDO */}
       <section style={{ padding: '40px 20px', flex: 1, backgroundColor: '#ffffff' }}>
         <div style={{ width: '90%', maxWidth: '1100px', margin: 'auto', display: 'grid', gridTemplateColumns: '240px 1fr', gap: '24px' }}>
-
-          {/* FILTROS */}
           <div style={{ backgroundColor: '#ffffff', borderRadius: '12px', padding: '24px', border: '1px solid #e5e7eb', height: 'fit-content', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
               <SlidersHorizontal size={18} color="#2563EB" />
@@ -180,8 +185,6 @@ export default function Empleos() {
               </label>
             ))}
           </div>
-
-          {/* CARDS */}
           <div>
             {loading ? (
               <>
@@ -200,7 +203,6 @@ export default function Empleos() {
               </div>
             )}
           </div>
-
         </div>
       </section>
 
@@ -220,7 +222,6 @@ export default function Empleos() {
           </div>
         </div>
       </footer>
-
     </div>
   );
 }
