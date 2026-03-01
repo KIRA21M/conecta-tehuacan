@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const performanceMiddleware = require("./middlewares/performance.middleware");
 
 const routes = require("./routes");
 const errorMiddleware = require("./middlewares/error.middleware");
