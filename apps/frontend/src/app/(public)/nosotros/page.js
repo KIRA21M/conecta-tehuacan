@@ -10,6 +10,13 @@ function CounterCard({ icon, end, label }) {
   const started = useRef(false);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+      setCount(end);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
@@ -64,11 +71,7 @@ export default function Nosotros() {
     }}>
 
       {/* HEADER */}
-      <header style={{
-        background: '#ffffff',
-        padding: '20px 0',
-        borderBottom: '1px solid #e5e7eb'
-      }}>
+      <header style={{ background: '#ffffff', padding: '20px 0', borderBottom: '1px solid #e5e7eb' }}>
         <div style={{ width: '90%', maxWidth: '1100px', margin: 'auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Link href="/" style={{ textDecoration: 'none' }}>

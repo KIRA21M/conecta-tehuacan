@@ -73,8 +73,10 @@ export default function LoginPage() {
                     60% { transform: translateX(-6px); }
                     80% { transform: translateX(6px); }
                 }
-                .shake {
-                    animation: shake 0.5s ease;
+                @media (prefers-reduced-motion: no-preference) {
+                    .shake {
+                        animation: shake 0.5s ease;
+                    }
                 }
             `}</style>
 
@@ -110,7 +112,6 @@ export default function LoginPage() {
                             autoComplete="email"
                             required
                         />
-
                         <Input
                             ref={passwordRef}
                             id="password"
@@ -124,7 +125,6 @@ export default function LoginPage() {
                             autoComplete="current-password"
                             required
                         />
-
                         <div className="pt-2 flex flex-col items-center gap-6">
                             <Button
                                 ref={submitRef}
@@ -134,7 +134,6 @@ export default function LoginPage() {
                             >
                                 {loading ? 'Cargando...' : 'Iniciar Sesión'}
                             </Button>
-
                             <Link href="/recuperar" className="text-[15px] font-bold text-gray-900 hover:text-primary transition-colors underline underline-offset-4">
                                 ¿Olvidaste tu contraseña?
                             </Link>
