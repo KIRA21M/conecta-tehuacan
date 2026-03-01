@@ -15,6 +15,7 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [shake, setShake] = useState(false);
     const router = useRouter();
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -48,7 +49,6 @@ export default function LoginPage() {
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('user', JSON.stringify(response.data.user));
             
-            // Redirigir según el rol
             if (response.data.user.role === 'aspirante') {
                 router.push('/dashboard');
             } else {
@@ -56,6 +56,8 @@ export default function LoginPage() {
             }
         } catch (err: any) {
             setError(err.message || 'Error al iniciar sesión');
+            setShake(true);
+            setTimeout(() => setShake(false), 500);
         } finally {
             setLoading(false);
         }
@@ -63,10 +65,23 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen flex flex-col bg-[#FBFBFB]">
+            <style>{`
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    20% { transform: translateX(-8px); }
+                    40% { transform: translateX(8px); }
+                    60% { transform: translateX(-6px); }
+                    80% { transform: translateX(6px); }
+                }
+                .shake {
+                    animation: shake 0.5s ease;
+                }
+            `}</style>
+
             <Header />
 
             <main className="flex-grow flex items-center justify-center pt-32 pb-20 px-4">
-                <Card className="flex flex-col items-center">
+                <Card className={`flex flex-col items-center ${shake ? 'shake' : ''}`}>
                     <div className="mb-8 text-center">
                         <h1 className="text-[22px] font-bold tracking-tight mb-6">
                             <span className="text-gray-900">CONECTA</span>
