@@ -5,32 +5,65 @@ on:
     branches:
       - develop
 
+concurrency:
+  group: staging-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-and-deploy:
+    name: Build & Prepare Staging
     runs-on: ubuntu-latest
 
     steps:
-      - name: Clonar repositorio
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Instalar Node
-        uses: actions/setup-node@v3
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: 'npm'
 
-      - name: Instalar dependencias frontend
-        run: |
-          cd apps/frontend
-          npm install
+      # ======================
+      # FRONTEND
+      # ======================
+      - name: Install Frontend Dependencies
+        working-directory: apps/frontend
+        run: npm ci
 
-      - name: Build frontend
-        run: |
-          cd apps/frontend
-          npm run build
+      - name: Lint Frontend
+        working-directory: apps/frontend
+        run: npm run lint --if-present
 
-      - name: Instalar dependencias backend
-        run: |
-          cd apps/backend
-          npm install
+      - name: Build Frontend
+        working-directory: apps/frontend
+        run: npm run build
 
- 
+      - name: Upload Frontend Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build
+          path: apps/frontend/dist
+
+      # ======================
+      # BACKEND
+      # ======================
+      - name: Install Backend Dependencies
+        working-directory: apps/backend
+        run: npm ci
+
+      - name: Lint Backend
+        working-directory: apps/backend
+        run: npm run lint --if-present
+
+      - name: Validate Backend Boot
+        working-directory: apps/backend
+        run: node -e "require('./src/index.js')"
+
+      - name: Security Audit Backend
+        working-directory: apps/backend
+        run: npm audit --audit-level=high
+
+      - name: Build Backend Docker Image
+        working-directory: apps/backend
+        run: docker build -t conecta-backend-staging .
