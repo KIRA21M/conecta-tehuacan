@@ -133,4 +133,59 @@ Este proyecto prioriza la accesibilidad web (A11y) y la gestión eficiente de co
 
 ---
 
+### 🚀 Performance y Optimización
+
+#### Compresión Gzip
+El servidor que sirve el frontend debe comprimir las respuestas con Gzip o Brotli.
+
+- **Custom server Node/Express**: instale `compression` y añádalo como middleware antes de llamar a `next()`.
+  ```js
+  const compression = require('compression');
+  app.use(compression());
+  ```
+- Si usa plataformas gestionadas (Vercel, Netlify, etc.) la compresión suele estar habilitada por defecto; solo compruebe la configuración de despliegue.
+
+#### Árbol de dependencias (Tree‑shaking)
+Next.js ya ejecuta tree‑shaking al construir (`next build`).
+
+- Evite importar paquetes completos. Prefiera:
+  ```js
+  import { debounce } from 'lodash';
+  ```
+  en lugar de `import _ from 'lodash';`.
+- Para analizar el tamaño del bundle, instale y configure `@next/bundle-analyzer`:
+  ```bash
+  npm install --save-dev @next/bundle-analyzer
+  ```
+  y añada a `next.config.js`:
+  ```js
+  const withBundleAnalyzer = require('@next/bundle-analyzer')({
+    enabled: process.env.ANALYZE === 'true',
+  });
+  module.exports = withBundleAnalyzer({});
+  ```
+  luego ejecute `ANALYZE=true npm run build`.
+
+#### Core Web Vitals – Informe final
+Para generar un reporte antes de cerrar el proyecto:
+
+1. Construya y levante la aplicación:
+   ```bash
+   cd apps/frontend
+   npm ci
+   npm run build
+   npm run start &
+   ```
+2. Ejecute Lighthouse (CLI o devtools) contra `http://localhost:3000` y guarde el HTML/JSON.
+3. Con LHCI (ya configurado) puede automatizar:
+   ```bash
+   npx lhci collect --url=http://localhost:3000
+   npx lhci upload --target=temporary-public-storage
+   ```
+4. Adjunte el resultado (`.lighthouseci/history/*.json` o el HTML generado) al repositorio o publicación de CI.
+
+El reporte debe incluir métricas LCP, FID y CLS; use la salida como referencia para el cierre del sprint.
+
+---
+
 **Desarrollado con ❤️ para la comunidad de Tehuacán, Puebla**
