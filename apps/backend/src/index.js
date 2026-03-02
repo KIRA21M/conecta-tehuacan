@@ -5,7 +5,11 @@ const cors = require("cors");
 const routes = require("./routes");
 const errorMiddleware = require("./middlewares/error.middleware");
 
+const compression = require('compression');
 const app = express();
+
+// enable gzip compression for all responses
+app.use(compression());
 app.use(cors());
 app.use(express.json());
 
