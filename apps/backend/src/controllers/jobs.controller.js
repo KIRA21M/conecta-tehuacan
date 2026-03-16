@@ -14,7 +14,7 @@ async function list(req, res, next) {
 
     return ok(res, {
       message: "Vacantes",
-      data: result.data,
+      data: result.items,
       meta: {
         page,
         limit,

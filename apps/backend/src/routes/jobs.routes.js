@@ -8,7 +8,7 @@ const asyncHandler = fn => (req,res,next)=>Promise.resolve(fn(req,res,next)).cat
 
 // Public
 router.get("/", listJobsValidator, validate, asyncHandler(JobsController.list));
-router.get("/:id", jobIdValidator, validate, asyncHandler(JobsController.getById));
+router.get("/:id", jobIdValidator, validate, asyncHandler(JobsController.detail));
 
 // Protected
 router.post(
@@ -35,7 +35,7 @@ router.patch(
   validate,
   authRequired,
   requireRole("reclutador","admin"),
-  asyncHandler(JobsController.setStatus)
+  asyncHandler(JobsController.status)
 );
 
 module.exports = router;
