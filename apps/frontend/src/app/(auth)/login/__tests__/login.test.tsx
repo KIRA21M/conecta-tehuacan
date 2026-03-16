@@ -9,6 +9,16 @@ jest.mock('next/navigation', () => ({
     useRouter: () => ({ push: jest.fn() }),
 }));
 
+jest.mock('@/services/api', () => ({
+    authAPI: {
+        login: jest.fn(() =>
+            Promise.resolve({
+                data: { token: 'fake-token', user: { role: 'aspirante' } },
+            })
+        ),
+    },
+}));
+
 jest.mock('next/link', () => {
     const MockLink = ({ children, href }) => <a href={href}>{children}</a>;
     MockLink.displayName = 'MockLink';
@@ -52,6 +62,17 @@ describe('Pagina de Inicio de Sesion', () => {
     test('debe renderizar el enlace de contrasena olvidada', () => {
         render(<LoginPage />);
         expect(screen.getByText(/Olvidaste tu contraseña/i)).toBeInTheDocument();
+    });
+
+    test('debe mostrar errores de validacion al enviar sin valores', async () => {
+        render(<LoginPage />);
+        const submitButton = screen.getByRole('button', { name: /Iniciar Sesión/i });
+
+        await userEvent.click(submitButton);
+
+        expect(screen.getByText(/El correo electrónico es obligatorio/i)).toBeInTheDocument();
+        expect(screen.getByText(/La contraseña es obligatoria/i)).toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: /Cargando/i })).not.toBeInTheDocument();
     });
 
     test('debe permitir escribir en el campo de correo electronico', async () => {
