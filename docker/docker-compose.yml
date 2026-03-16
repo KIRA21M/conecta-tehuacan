@@ -4,10 +4,10 @@ services:
     container_name: conecta-mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: conecta_db
-      MYSQL_USER: conecta_user
-      MYSQL_PASSWORD: conecta_pass
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       TZ: America/Mexico_City
     ports:
       - "3307:3306"
@@ -17,7 +17,7 @@ services:
     networks:
       - conecta-network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -31,22 +31,22 @@ services:
       - conecta-backend-node_modules:/app/node_modules
     command: ["sh", "-c", "npm install && npm start"]
     ports:
-      - "3000:3000"
+      - "${PORT:-3000}:3000"
     environment:
-      NODE_ENV: development
-      PORT: 3000
-      CORS_ORIGIN: http://localhost:5173
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: ${PORT:-3000}
+      CORS_ORIGIN: ${CORS_ORIGIN}
       DB_HOST: mysql
       DB_PORT: 3306
-      DB_NAME: conecta_db
-      DB_USER: conecta_user
-      DB_PASSWORD: conecta_pass
-      JWT_SECRET: dev_access_secret_change_in_production
-      JWT_EXPIRES_IN: 15m
-      JWT_REFRESH_SECRET: dev_refresh_secret_change_in_production
-      JWT_REFRESH_EXPIRES_IN: 7d
-      JWT_ISSUER: conecta-tehuacan
-      JWT_AUDIENCE: conecta-app
+      DB_NAME: ${MYSQL_DATABASE}
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-15m}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      JWT_REFRESH_EXPIRES_IN: ${JWT_REFRESH_EXPIRES_IN:-7d}
+      JWT_ISSUER: ${JWT_ISSUER:-conecta-tehuacan}
+      JWT_AUDIENCE: ${JWT_AUDIENCE:-conecta-app}
     depends_on:
       mysql:
         condition: service_healthy
@@ -64,7 +64,8 @@ services:
     ports:
       - "5173:5173"
     environment:
-      VITE_API_URL: http://localhost:3000
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3000/api}
+      NEXT_PUBLIC_APP_ENV: ${NEXT_PUBLIC_APP_ENV:-development}
     depends_on:
       - backend
     networks:

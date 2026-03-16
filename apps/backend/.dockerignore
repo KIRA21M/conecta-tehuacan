@@ -1,0 +1,27 @@
+# ─── Dependencias (se instalan dentro del contenedor) ────────
+node_modules/
+
+# ─── Variables de entorno (se inyectan por docker-compose) ───
+.env
+.env.*
+
+# ─── Logs ────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+logs/
+
+# ─── Archivos de debug ───────────────────────────────────────
+check-password.js
+check-user.js
+test-db.js
+
+# ─── Git ─────────────────────────────────────────────────────
+.git/
+.gitignore
+
+# ─── OS ──────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ─── Cobertura de tests ──────────────────────────────────────
+coverage/
