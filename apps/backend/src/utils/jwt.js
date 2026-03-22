@@ -1,9 +1,10 @@
 const jwt = require("jsonwebtoken");
 
-function signAccessToken(payload) {
+function signAccessToken(payload, options = {}) {
+  const { expiresIn } = options;
   return jwt.sign(payload, process.env.JWT_SECRET, {
     algorithm: "HS256",
-    expiresIn: process.env.JWT_EXPIRES_IN || "2h",
+    expiresIn: expiresIn || process.env.JWT_EXPIRES_IN || "2h",
     issuer: process.env.JWT_ISSUER || "conecta-tehuacan",
     audience: process.env.JWT_AUDIENCE || "conecta-app",
   });
@@ -17,4 +18,8 @@ function verifyAccessToken(token) {
   });
 }
 
-module.exports = { signAccessToken, verifyAccessToken };
+function decodeToken(token) {
+  return jwt.decode(token);
+}
+
+module.exports = { signAccessToken, verifyAccessToken, decodeToken };

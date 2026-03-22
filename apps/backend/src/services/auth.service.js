@@ -1,7 +1,8 @@
 const bcrypt = require("bcryptjs");
 const db = require("../config/db");
 const { AppError } = require("../utils/errors");
-const { signAccessToken } = require("../utils/jwt");
+const { signAccessToken, decodeToken } = require("../utils/jwt");
+const SessionService = require("./session.service");
 
 async function findUserByEmail(email) {
   const [rows] = await db.query(
@@ -31,7 +32,7 @@ async function getProfileByRole(userId, role) {
   return null;
 }
 
-async function register({ full_name, email, password, role }) {
+async function register({ full_name, email, password, role }, context = {}) {
   const conn = await db.getConnection();
   try {
     await conn.beginTransaction();
@@ -67,8 +68,18 @@ async function register({ full_name, email, password, role }) {
 
     await conn.commit();
 
-    // 5) Emitir JWT (opcional pero útil)
-    const token = signAccessToken({ id: userId, role, email });
+    // 5) Emitir JWT y sesión persistente
+    const sessionId = SessionService.generateSessionId();
+    const token = signAccessToken({ id: userId, role, email, sid: sessionId });
+    const tokenPayload = decodeToken(token);
+    await SessionService.createSession({
+      userId,
+      sessionId,
+      token,
+      tokenExp: tokenPayload.exp,
+      userAgent: context.userAgent,
+      ipAddress: context.ipAddress,
+    });
 
     return {
       token,
@@ -83,7 +94,7 @@ async function register({ full_name, email, password, role }) {
   }
 }
 
-async function login({ email, password, allowedRoles = [] }) {
+async function login({ email, password, allowedRoles = [] }, context = {}) {
   const user = await findUserByEmail(email);
 
   // Error genérico para no filtrar si el email existe
@@ -106,7 +117,17 @@ async function login({ email, password, allowedRoles = [] }) {
 
   await db.query("UPDATE users SET last_login_at = NOW() WHERE id = ?", [user.id]);
 
-  const token = signAccessToken({ id: user.id, role: user.role, email: user.email });
+  const sessionId = SessionService.generateSessionId();
+  const token = signAccessToken({ id: user.id, role: user.role, email: user.email, sid: sessionId });
+  const tokenPayload = decodeToken(token);
+  await SessionService.createSession({
+    userId: user.id,
+    sessionId,
+    token,
+    tokenExp: tokenPayload.exp,
+    userAgent: context.userAgent,
+    ipAddress: context.ipAddress,
+  });
   const profile = await getProfileByRole(user.id, user.role);
 
   return {
@@ -116,4 +137,26 @@ async function login({ email, password, allowedRoles = [] }) {
   };
 }
 
-module.exports = { register, login };
+async function logout({ userId, sessionId }) {
+  const revoked = await SessionService.revokeSession({ userId, sessionId, reason: "logout" });
+  if (!revoked) {
+    throw new AppError("Sesión no encontrada o ya inválida", 404, [{ reason: "session_not_found" }]);
+  }
+}
+
+async function logoutAll({ userId, currentSessionId, keepCurrent = false }) {
+  const affected = await SessionService.revokeAllUserSessions({
+    userId,
+    exceptSessionId: keepCurrent ? currentSessionId : null,
+    reason: "logout_all",
+  });
+
+  return { revokedSessions: affected };
+}
+
+async function getActiveSessions(userId) {
+  const sessions = await SessionService.listActiveSessions(userId);
+  return { sessions };
+}
+
+module.exports = { register, login, logout, logoutAll, getActiveSessions };
