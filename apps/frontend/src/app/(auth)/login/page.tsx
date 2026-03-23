@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { authAPI } from '@/services/api';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function LoginPage() {
     const [values, setValues] = useState({ email: '', password: '' });
@@ -17,7 +17,7 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [formError, setFormError] = useState('');
     const [shake, setShake] = useState(false);
-    const router = useRouter();
+    const { login } = useAuth();
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const submitRef = useRef<HTMLButtonElement>(null);
@@ -92,11 +92,11 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
-            const response = await authAPI.login(values.email, values.password);
-            localStorage.setItem('token', response.accessToken);
-            localStorage.setItem('user', JSON.stringify(response.user));
+            await login(values.email, values.password);
 
-            if (response.user.role === 'aspirante') {
+            // Redirect based on role - need to get user from context or session
+            const session = authAPI.getSession();
+            if (session?.user.role === 'aspirante') {
                 router.push('/dashboard');
             } else {
                 router.push('/recruiter');

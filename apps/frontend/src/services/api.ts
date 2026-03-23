@@ -30,6 +30,8 @@ export const sessionStorage = {
   },
   clear() {
     localStorage.removeItem('session');
+    localStorage.removeItem('token'); // legacy
+    localStorage.removeItem('user'); // legacy
   },
 };
 
@@ -159,6 +161,21 @@ export const authAPI = {
       }).catch(() => {});
     }
     sessionStorage.clear();
+  },
+
+  refresh: async (): Promise<Session | null> => {
+    const session = sessionStorage.get();
+    if (!session?.refreshToken) return null;
+
+    const renewed = await tryRefresh(session.refreshToken);
+    if (!renewed) {
+      sessionStorage.clear();
+      return null;
+    }
+
+    const updatedSession = { ...session, accessToken: renewed.accessToken, refreshToken: renewed.refreshToken };
+    sessionStorage.save(updatedSession);
+    return updatedSession;
   },
 
   getSession: (): Session | null => sessionStorage.get(),

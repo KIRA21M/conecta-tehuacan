@@ -2,48 +2,29 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useView } from '@/contexts/ViewContext';
+import { useAuth } from '@/contexts/AuthContext';
 import CandidateSidebar from '@/components/layout/CandidateSidebar';
 import styles from './dashboard.module.css';
 
 export default function Dashboard() {
   const { view, switchToCandidateView } = useView();
+  const { isAuthenticated, isLoading, user } = useAuth();
   const [activeTab, setActiveTab] = useState('Mi perfil');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const checkAuth = () => {
-      try {
-        const user = localStorage.getItem('user');
-        if (!user) {
-          router.push('/login');
-          return;
-        }
+    if (!isLoading && !isAuthenticated) {
+      router.push('/login');
+      return;
+    }
 
-        const userData = JSON.parse(user);
-        
-        // Usuario autenticado
-        setIsAuthenticated(true);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error verificando autenticación:', error);
-        router.push('/login');
-      }
-    };
-
-    checkAuth();
-  }, [router]);
-
-  useEffect(() => {
     if (isAuthenticated) {
       switchToCandidateView();
     }
-  }, [isAuthenticated, switchToCandidateView]);
+  }, [isAuthenticated, isLoading, switchToCandidateView, router]);
 
   // Mostrar pantalla de carga mientras verifica autenticación
-  if (loading) {
+  if (isLoading || !isAuthenticated) {
     return (
       <div style={{ 
         display: 'flex', 
