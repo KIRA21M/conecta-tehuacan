@@ -31,10 +31,10 @@ services:
       - conecta-backend-node_modules:/app/node_modules
     command: ["sh", "-c", "npm install && npm start"]
     ports:
-      - "${PORT:-3000}:3000"
+      - "3001:3001"
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      PORT: ${PORT:-3000}
+      PORT: 3001
       CORS_ORIGIN: ${CORS_ORIGIN}
       DB_HOST: mysql
       DB_PORT: 3306
@@ -60,9 +60,9 @@ services:
     volumes:
       - ../apps/frontend:/app
       - conecta-frontend-node_modules:/app/node_modules
-    command: ["sh", "-c", "npm install && npm run dev -- --host"]
+    command: ["sh", "-c", "npm install && npm run dev"]
     ports:
-      - "5173:5173"
+      - "3000:3000"
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3000/api}
       NEXT_PUBLIC_APP_ENV: ${NEXT_PUBLIC_APP_ENV:-development}
