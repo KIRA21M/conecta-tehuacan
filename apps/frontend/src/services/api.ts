@@ -186,6 +186,32 @@ export const authAPI = {
     const session = sessionStorage.get();
     return !!session && roles.includes(session.user.role);
   },
+
+  forgotPassword: async (email: string) => {
+    const res = await fetch(`${API_URL}/auth/forgot-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.message || 'Error al enviar correo de recuperación');
+    }
+    return res.json();
+  },
+
+  resetPassword: async (token: string, newPassword: string) => {
+    const res = await fetch(`${API_URL}/auth/reset-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token, newPassword }),
+    });
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.message || 'Error al cambiar contraseña');
+    }
+    return res.json();
+  },
 };
 
 // ─── Jobs API ─────────────────────────────────────────────────────────────────

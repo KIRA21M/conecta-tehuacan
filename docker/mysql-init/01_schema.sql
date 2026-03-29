@@ -113,6 +113,20 @@ CREATE TABLE IF NOT EXISTS refresh_tokens (
   CONSTRAINT fk_rt_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- ─── Password reset tokens ───────────────────────────────────
+CREATE TABLE IF NOT EXISTS password_reset_tokens (
+  id          INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  user_id     INT UNSIGNED  NOT NULL,
+  token_hash  VARCHAR(64)   NOT NULL,
+  expires_at  DATETIME      NOT NULL,
+  used        TINYINT(1)    NOT NULL DEFAULT 0,
+  created_at  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_token_hash (token_hash),
+  INDEX idx_user_id (user_id),
+  CONSTRAINT fk_prt_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- ─── Admin de prueba (contraseña: Admin1234!) ────────────────
 INSERT IGNORE INTO users (full_name, email, password_hash, role, is_active, is_verified)
 VALUES (

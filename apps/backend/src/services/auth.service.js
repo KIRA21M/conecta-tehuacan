@@ -196,4 +196,58 @@ async function logout(token) {
   await db.query("UPDATE refresh_tokens SET revoked = 1 WHERE token_hash = ?", [tokenHash]);
 }
 
-module.exports = { register, verifyEmail, login, refreshToken, logout };
+// ─── forgot password ─────────────────────────────────────────────────────────
+
+async function forgotPassword(email) {
+  const user = await findUserByEmail(email);
+  if (!user) {
+    // Don't reveal if email exists or not for security
+    return { message: "Si el correo existe, se enviará un enlace de recuperación." };
+  }
+
+  // Generate reset token
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  const tokenHash = crypto.createHash("sha256").update(resetToken).digest("hex");
+  const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
+
+  await db.query(
+    "INSERT INTO password_reset_tokens (user_id, token_hash, expires_at) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE token_hash = VALUES(token_hash), expires_at = VALUES(expires_at)",
+    [user.id, tokenHash, expiresAt]
+  );
+
+  // TODO: Send email with reset link
+  // For now, just return the token (in production, send email)
+  console.log(`Reset token for ${email}: ${resetToken}`);
+
+  return { message: "Si el correo existe, se enviará un enlace de recuperación." };
+}
+
+// ─── reset password ──────────────────────────────────────────────────────────
+
+async function resetPassword(token, newPassword) {
+  const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+
+  const [rows] = await db.query(
+    "SELECT user_id, expires_at FROM password_reset_tokens WHERE token_hash = ? AND expires_at > NOW() AND used = 0 LIMIT 1",
+    [tokenHash]
+  );
+
+  if (!rows[0]) {
+    throw new AppError("Token inválido o expirado", 400);
+  }
+
+  const { user_id } = rows[0];
+
+  // Hash new password
+  const passwordHash = await bcrypt.hash(newPassword, 12);
+
+  // Update password
+  await db.query("UPDATE users SET password_hash = ? WHERE id = ?", [passwordHash, user_id]);
+
+  // Mark token as used
+  await db.query("UPDATE password_reset_tokens SET used = 1 WHERE token_hash = ?", [tokenHash]);
+
+  return { message: "Contraseña cambiada exitosamente" };
+}
+
+module.exports = { register, verifyEmail, login, refreshToken, logout, forgotPassword, resetPassword };
