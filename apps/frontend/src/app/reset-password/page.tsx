@@ -112,6 +112,11 @@ export default function ResetPasswordPage() {
             setTouched({ password: true, confirmPassword: true });
             setShake(true);
             setTimeout(() => setShake(false), 500);
+            if (passwordError) {
+                passwordRef.current?.focus();
+            } else {
+                confirmRef.current?.focus();
+            }
             return;
         }
 

@@ -51,6 +51,7 @@ export default function ForgotPasswordPage() {
             setError(emailError);
             setShake(true);
             setTimeout(() => setShake(false), 500);
+            emailRef.current?.focus();
             return;
         }
 
