@@ -32,4 +32,20 @@ const registerValidator = [
     .withMessage("role debe ser aspirante o reclutador"),
 ];
 
-module.exports = { loginValidator, registerValidator };
+const forgotPasswordValidator = [
+  body("email").isEmail().withMessage("Email inválido").normalizeEmail(),
+];
+
+const resetPasswordValidator = [
+  body("token").isString().notEmpty().withMessage("Token requerido"),
+  body("newPassword")
+    .isString()
+    .isLength({ min: 8, max: 72 })
+    .withMessage("La contraseña debe tener entre 8 y 72 caracteres"),
+  body("confirmPassword")
+    .isString()
+    .custom((value, { req }) => value === req.body.newPassword)
+    .withMessage("Las contraseñas no coinciden"),
+];
+
+module.exports = { loginValidator, registerValidator, forgotPasswordValidator, resetPasswordValidator };

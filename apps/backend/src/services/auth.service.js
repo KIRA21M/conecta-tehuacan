@@ -3,6 +3,7 @@ const db = require("../config/db");
 const { AppError } = require("../utils/errors");
 const { signAccessToken, decodeToken } = require("../utils/jwt");
 const SessionService = require("./session.service");
+const PasswordResetService = require("./password-reset.service");
 
 async function findUserByEmail(email) {
   const [rows] = await db.query(
@@ -159,4 +160,51 @@ async function getActiveSessions(userId) {
   return { sessions };
 }
 
-module.exports = { register, login, logout, logoutAll, getActiveSessions };
+async function forgotPassword({ email }) {
+  const user = await findUserByEmail(email);
+
+  if (!user) {
+    // No revelamos si el email existe por seguridad
+    return { message: "Si el email existe, recibirás instrucciones de recuperación" };
+  }
+
+  if (!user.is_active) {
+    throw new AppError("Usuario desactivado", 401, [{ reason: "user_inactive" }]);
+  }
+
+  const resetToken = await PasswordResetService.createResetToken({
+    userId: user.id,
+    email: user.email,
+  });
+
+  // Aquí iría el envío de email (implementar después)
+  console.log(`Reset token for ${email}: ${resetToken}`);
+
+  return { message: "Si el email existe, recibirás instrucciones de recuperación" };
+}
+
+async function resetPassword({ token, newPassword }) {
+  const { userId, email } = await PasswordResetService.validateResetToken({ token });
+
+  // Hash de la nueva contraseña
+  const passwordHash = await bcrypt.hash(newPassword, 10);
+
+  // Actualizar contraseña
+  await db.query(
+    "UPDATE users SET password_hash = ? WHERE id = ?",
+    [passwordHash, userId]
+  );
+
+  // Marcar token como usado
+  await PasswordResetService.markTokenAsUsed({ token });
+
+  // Revocar todas las sesiones activas por seguridad
+  await SessionService.revokeAllUserSessions({
+    userId,
+    reason: "password_reset",
+  });
+
+  return { message: "Contraseña actualizada exitosamente" };
+}
+
+module.exports = { register, login, logout, logoutAll, getActiveSessions, forgotPassword, resetPassword };

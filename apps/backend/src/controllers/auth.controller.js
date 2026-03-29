@@ -60,4 +60,16 @@ async function listSessions(req, res) {
   return ok(res, { message: "Sesiones activas", data });
 }
 
-module.exports = { register, loginCandidate, loginAdmin, logout, logoutAll, listSessions };
+async function forgotPassword(req, res) {
+  const { email } = req.body;
+  const data = await AuthService.forgotPassword({ email });
+  return ok(res, { message: data.message });
+}
+
+async function resetPassword(req, res) {
+  const { token, newPassword } = req.body;
+  const data = await AuthService.resetPassword({ token, newPassword });
+  return ok(res, { message: data.message });
+}
+
+module.exports = { register, loginCandidate, loginAdmin, logout, logoutAll, listSessions, forgotPassword, resetPassword };
