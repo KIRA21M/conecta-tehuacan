@@ -48,9 +48,34 @@ export default function ProfilePage() {
 
   return (
     <div style={{ padding: '20px' }}>
+      <a
+        href="#profile-form"
+        style={{
+          position: 'absolute',
+          left: '-9999px',
+          top: 'auto',
+          width: '1px',
+          height: '1px',
+          overflow: 'hidden',
+        }}
+        onFocus={(e) => {
+          e.target.style.left = '10px';
+          e.target.style.top = '10px';
+          e.target.style.width = 'auto';
+          e.target.style.height = 'auto';
+        }}
+        onBlur={(e) => {
+          e.target.style.left = '-9999px';
+          e.target.style.top = 'auto';
+          e.target.style.width = '1px';
+          e.target.style.height = '1px';
+        }}
+      >
+        Saltar al formulario de perfil
+      </a>
       <h1>Mi Perfil</h1>
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-        <form onSubmit={handleSubmit}>
+        <form id="profile-form" onSubmit={handleSubmit} role="form" aria-labelledby="profile-heading">
           <div style={{ marginBottom: '15px' }}>
             <label htmlFor="full_name" style={{ display: 'block', marginBottom: '5px' }}>
               Nombre Completo
@@ -62,6 +87,7 @@ export default function ProfilePage() {
               value={formData.full_name}
               onChange={handleChange}
               disabled={!isEditing}
+              aria-describedby="full_name_help"
               style={{
                 width: '100%',
                 padding: '8px',
@@ -70,6 +96,9 @@ export default function ProfilePage() {
                 fontSize: '16px',
               }}
             />
+            <span id="full_name_help" style={{ display: 'none' }}>
+              Ingresa tu nombre completo
+            </span>
           </div>
 
           <div style={{ marginBottom: '15px' }}>
@@ -83,6 +112,7 @@ export default function ProfilePage() {
               value={formData.email}
               onChange={handleChange}
               disabled={!isEditing}
+              aria-describedby="email_help"
               style={{
                 width: '100%',
                 padding: '8px',
@@ -91,16 +121,21 @@ export default function ProfilePage() {
                 fontSize: '16px',
               }}
             />
+            <span id="email_help" style={{ display: 'none' }}>
+              Ingresa tu correo electrónico
+            </span>
           </div>
 
           <div style={{ marginBottom: '15px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>
+            <label htmlFor="role" style={{ display: 'block', marginBottom: '5px' }}>
               Rol
             </label>
             <input
               type="text"
+              id="role"
               value={user.role}
               disabled
+              aria-describedby="role_help"
               style={{
                 width: '100%',
                 padding: '8px',
@@ -110,6 +145,9 @@ export default function ProfilePage() {
                 backgroundColor: '#f5f5f5',
               }}
             />
+            <span id="role_help" style={{ display: 'none' }}>
+              Tu rol en la plataforma, no editable
+            </span>
           </div>
 
           <div style={{ display: 'flex', gap: '10px' }}>
@@ -117,6 +155,7 @@ export default function ProfilePage() {
               <button
                 type="button"
                 onClick={() => setIsEditing(true)}
+                aria-label="Editar información del perfil"
                 style={{
                   padding: '10px 20px',
                   backgroundColor: '#2563eb',
@@ -133,6 +172,7 @@ export default function ProfilePage() {
                 <button
                   type="submit"
                   disabled={isLoading}
+                  aria-label={isLoading ? 'Guardando cambios' : 'Guardar cambios del perfil'}
                   style={{
                     padding: '10px 20px',
                     backgroundColor: '#16a34a',
@@ -153,6 +193,7 @@ export default function ProfilePage() {
                       email: user.email,
                     });
                   }}
+                  aria-label="Cancelar edición y restaurar valores originales"
                   style={{
                     padding: '10px 20px',
                     backgroundColor: '#dc2626',

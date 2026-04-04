@@ -16,15 +16,21 @@ export default function Dashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.push('/login');
-      return;
-    }
+    if (!isLoading) {
+      if (!isAuthenticated) {
+        router.push('/login');
+        return;
+      }
 
-    if (isAuthenticated) {
+      // Validar rol: solo aspirantes pueden acceder al dashboard
+      if (user?.role !== 'aspirante') {
+        router.push('/');
+        return;
+      }
+
       switchToCandidateView();
     }
-  }, [isAuthenticated, isLoading, switchToCandidateView, router]);
+  }, [isAuthenticated, isLoading, user, switchToCandidateView, router]);
 
   // Mostrar pantalla de carga mientras verifica autenticación
   if (isLoading || !isAuthenticated) {

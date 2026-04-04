@@ -78,14 +78,40 @@ export default function FavoritesPage() {
 
   return (
     <div style={{ padding: '20px' }}>
+      <a
+        href="#favorites-list"
+        style={{
+          position: 'absolute',
+          left: '-9999px',
+          top: 'auto',
+          width: '1px',
+          height: '1px',
+          overflow: 'hidden',
+        }}
+        onFocus={(e) => {
+          e.target.style.left = '10px';
+          e.target.style.top = '10px';
+          e.target.style.width = 'auto';
+          e.target.style.height = 'auto';
+        }}
+        onBlur={(e) => {
+          e.target.style.left = '-9999px';
+          e.target.style.top = 'auto';
+          e.target.style.width = '1px';
+          e.target.style.height = '1px';
+        }}
+      >
+        Saltar a la lista de favoritos
+      </a>
       <h1>Mis Favoritos</h1>
       {favorites.length === 0 ? (
         <p>No tienes vacantes favoritas aún.</p>
       ) : (
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+        <div id="favorites-list" style={{ maxWidth: '800px', margin: '0 auto' }} role="list" aria-label="Lista de vacantes favoritas">
           {favorites.map((job) => (
             <div
               key={job.id}
+              role="listitem"
               style={{
                 border: '1px solid #e5e7eb',
                 borderRadius: '8px',
@@ -95,9 +121,12 @@ export default function FavoritesPage() {
                 boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
                 position: 'relative',
               }}
+              tabIndex={0}
+              aria-label={`Vacante favorita: ${job.title} en ${job.company_name}, ${job.location}, ${job.work_mode}, ${job.employment_type}`}
             >
               <button
                 onClick={() => handleRemoveFavorite(job.id)}
+                aria-label={`Remover ${job.title} de favoritos`}
                 style={{
                   position: 'absolute',
                   top: '12px',
