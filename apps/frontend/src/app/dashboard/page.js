@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import CandidateSidebar from '@/components/layout/CandidateSidebar';
+import ProfilePage from '@/components/dashboard/ProfilePage';
+import ApplicationsPage from '@/components/dashboard/ApplicationsPage';
+import FavoritesPage from '@/components/dashboard/FavoritesPage';
 import styles from './dashboard.module.css';
 
 export default function Dashboard() {
@@ -61,11 +64,11 @@ export default function Dashboard() {
   const renderContent = () => {
     switch (activeTab) {
       case 'Mi perfil':
-        return <h1>Aquí va el perfil del candidato</h1>;
-      case 'Mi postulación':
-        return <h1>Aquí van las postulaciones</h1>;
+        return <ProfilePage />;
+      case 'Mis postulaciones':
+        return <ApplicationsPage />;
       case 'Mis favoritos':
-        return <h1>Aquí van los empleos favoritos</h1>;
+        return <FavoritesPage />;
       default:
         return <h1>Dashboard del candidato</h1>;
     }
