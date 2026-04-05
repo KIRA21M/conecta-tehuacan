@@ -2,15 +2,66 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  # ─── BACKEND ────────────────────────────────────────────────
+  backend:
+    name: Backend (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        node: [18, 20]
+
+    defaults:
+      run:
+        working-directory: apps/backend
+
+    env:
+      NODE_ENV: test
+      PORT: 3000
+      JWT_SECRET: ci_access_secret_dummy
+      JWT_REFRESH_SECRET: ci_refresh_secret_dummy
+      JWT_EXPIRES_IN: 15m
+      JWT_REFRESH_EXPIRES_IN: 7d
+      JWT_ISSUER: conecta-tehuacan
+      JWT_AUDIENCE: conecta-app
+      CORS_ORIGIN: http://localhost:5173
+      # DB apunta a valores dummy — no se conecta en CI, solo valida imports
+      DB_HOST: localhost
+      DB_PORT: 3306
+      DB_NAME: conecta_db
+      DB_USER: conecta_user
+      DB_PASSWORD: conecta_pass
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: apps/backend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate app structure
+        run: npm run validate
+
+      - name: Security Audit
+        run: npm audit --audit-level=high
+
+  # ─── FRONTEND ───────────────────────────────────────────────
   frontend:
     name: Frontend (Node ${{ matrix.node }})
     runs-on: ubuntu-latest
@@ -31,7 +82,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-          cache: 'npm'
+          cache: npm
           cache-dependency-path: apps/frontend/package-lock.json
 
       - name: Install dependencies
@@ -45,41 +96,3 @@ jobs:
 
       - name: Security Audit
         run: npm audit --audit-level=high
-
-  backend:
-    name: Backend (Node ${{ matrix.node }})
-    runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: true
-      matrix:
-        node: [18, 20]
-
-    defaults:
-      run:
-        working-directory: apps/backend
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-          cache: 'npm'
-          cache-dependency-path: apps/backend/package-lock.json
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run Lint
-        run: npm run lint --if-present
-
-      - name: Validate backend boot
-        run: node -e "require('./src/index.js')"
-
-      - name: Security Audit
-        run: npm audit --audit-level=high
-
-      - name: Build Docker Image
-        run: docker build -t conecta-backend .

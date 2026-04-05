@@ -54,16 +54,10 @@ export default function RegistroPage() {
 
         setLoading(true);
         try {
-            const response = await authAPI.register(formData);
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
+            await authAPI.register(formData);
             
-            // Redirigir según el rol
-            if (formData.rol === 'aspirante') {
-                router.push('/dashboard');
-            } else {
-                router.push('/recruiter');
-            }
+            // Registro exitoso, redirigir a login
+            router.push('/login?message=Registro exitoso. Verifica tu email antes de iniciar sesión.');
         } catch (err: any) {
             setError(err.message || 'Error al registrarse');
         } finally {

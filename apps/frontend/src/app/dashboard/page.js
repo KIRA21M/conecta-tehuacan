@@ -2,48 +2,38 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useView } from '@/contexts/ViewContext';
+import { useAuth } from '@/contexts/AuthContext';
 import CandidateSidebar from '@/components/layout/CandidateSidebar';
+import ProfilePage from '@/components/dashboard/ProfilePage';
+import ApplicationsPage from '@/components/dashboard/ApplicationsPage';
+import FavoritesPage from '@/components/dashboard/FavoritesPage';
 import styles from './dashboard.module.css';
 
 export default function Dashboard() {
   const { view, switchToCandidateView } = useView();
+  const { isAuthenticated, isLoading, user } = useAuth();
   const [activeTab, setActiveTab] = useState('Mi perfil');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const checkAuth = () => {
-      try {
-        const user = localStorage.getItem('user');
-        if (!user) {
-          router.push('/login');
-          return;
-        }
-
-        const userData = JSON.parse(user);
-        
-        // Usuario autenticado
-        setIsAuthenticated(true);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error verificando autenticación:', error);
+    if (!isLoading) {
+      if (!isAuthenticated) {
         router.push('/login');
+        return;
       }
-    };
 
-    checkAuth();
-  }, [router]);
+      // Validar rol: solo aspirantes pueden acceder al dashboard
+      if (user?.role !== 'aspirante') {
+        router.push('/');
+        return;
+      }
 
-  useEffect(() => {
-    if (isAuthenticated) {
       switchToCandidateView();
     }
-  }, [isAuthenticated, switchToCandidateView]);
+  }, [isAuthenticated, isLoading, user, switchToCandidateView, router]);
 
   // Mostrar pantalla de carga mientras verifica autenticación
-  if (loading) {
+  if (isLoading || !isAuthenticated) {
     return (
       <div style={{ 
         display: 'flex', 
@@ -80,11 +70,11 @@ export default function Dashboard() {
   const renderContent = () => {
     switch (activeTab) {
       case 'Mi perfil':
-        return <h1>Aquí va el perfil del candidato</h1>;
-      case 'Mi postulación':
-        return <h1>Aquí van las postulaciones</h1>;
+        return <ProfilePage />;
+      case 'Mis postulaciones':
+        return <ApplicationsPage />;
       case 'Mis favoritos':
-        return <h1>Aquí van los empleos favoritos</h1>;
+        return <FavoritesPage />;
       default:
         return <h1>Dashboard del candidato</h1>;
     }
