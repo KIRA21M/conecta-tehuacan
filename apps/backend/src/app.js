@@ -6,6 +6,15 @@ const cookieParser = require("cookie-parser");
 const securityProtection = require("./middlewares/securityProtection.middleware");
 const securityLogger = require("./middlewares/securityLog.middleware");
 const performanceMiddleware = require("./middlewares/performance.middleware");
+const {
+  detectSQLInjection,
+  detectXSS,
+  logUnauthorizedAttempts,
+  validateHeaders,
+  setSecurityHeaders,
+  sanitizeNumericParams,
+  validateContentType,
+} = require("./middlewares/security.middleware");
 const routes = require("./routes");
 const errorMiddleware = require("./middlewares/error.middleware");
 
@@ -17,6 +26,13 @@ app.use(cors({
   origin: process.env.CORS_ORIGIN || "http://localhost:5173",
   credentials: true,
 }));
+
+// Advanced security middleware (applied globally)
+app.use(setSecurityHeaders); // Set additional security headers
+app.use(validateHeaders); // Validate request headers
+app.use(validateContentType); // Validate Content-Type for modifying requests
+app.use(detectSQLInjection); // Detect SQL injection attempts
+app.use(detectXSS); // Detect XSS attempts
 
 // Body parsing and security protection (before routes)
 app.use(express.json({ limit: "10kb" }));
@@ -32,6 +48,9 @@ app.use("/api", routes);
 
 // 404 handler
 app.use((req, res) => res.status(404).json({ ok: false, message: "Not Found", errors: [] }));
+
+// Log unauthorized attempts (before error handler)
+app.use(logUnauthorizedAttempts);
 
 // Error handler (must be last)
 app.use(errorMiddleware);
