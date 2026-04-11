@@ -5,12 +5,18 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Rutas públicas que no requieren autenticación
-  const publicRoutes = ['/', '/login', '/registro', '/recuperar', '/reset-password'];
-  const isPublicRoute = publicRoutes.includes(pathname);
+  const publicRoutes = ['/', '/login', '/registro', '/recuperar', '/reset-password', '/contacto', '/nosotros', '/empleos'];
+  const isPublicRoute = publicRoutes.some(route => pathname === route || pathname.startsWith(route + '/'));
 
-  // Rutas protegidas
-  const protectedRoutes = ['/dashboard', '/recruiter'];
-  const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
+  // Rutas protegidas de candidato
+  const candidateRoutes = ['/dashboard'];
+  const isCandidateRoute = candidateRoutes.some(route => pathname.startsWith(route));
+
+  // Rutas protegidas de reclutador
+  const recruiterRoutes = ['/recruiter'];
+  const isRecruiterRoute = recruiterRoutes.some(route => pathname.startsWith(route));
+
+  const isProtectedRoute = isCandidateRoute || isRecruiterRoute;
 
   if (isProtectedRoute && !isPublicRoute) {
     // Verificar si hay token en cookies o headers
@@ -21,8 +27,11 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
 
-    // Aquí podríamos validar el token, pero por simplicidad, asumimos que si existe, es válido
-    // En producción, validar con el backend
+    // Aquí podríamos decodificar el token y verificar el rol
+    // Para rutas de reclutador, asegurarse que sea reclutador o admin
+    // Para rutas de candidato, asegurarse que sea candidato
+    // Por ahora, asumimos que el token es válido basándonos en el servidor
+    // El cliente también valida en el layout
   }
 
   return NextResponse.next();
