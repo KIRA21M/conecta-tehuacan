@@ -5,17 +5,52 @@
 
 const ROLES = {
   aspirante: {
-    permissions: ["read_jobs", "apply_job", "view_own_applications"],
+    permissions: [
+      // Jobs
+      "read_jobs", "apply_job", "view_own_applications",
+      // Applications
+      "create_application", "view_own_applications", "delete_own_application",
+      // Favorites
+      "manage_favorites",
+      // Messages
+      "send_message", "read_messages", "manage_own_messages",
+      // Company
+      "read_company_profiles", "view_featured_companies"
+    ],
     hierarchy: 1,
     description: "Job candidate"
   },
   reclutador: {
-    permissions: ["read_jobs", "create_job", "update_job", "change_job_status", "manage_candidates"],
+    permissions: [
+      // Jobs
+      "read_jobs", "create_job", "update_job", "change_job_status", "manage_candidates",
+      // Applications
+      "view_applications", "update_application_status", "add_application_notes", "view_application_stats",
+      // Messages
+      "send_message", "read_messages", "manage_own_messages",
+      // Company
+      "create_company_profile", "update_company_profile", "view_company_stats",
+      "manage_company_contacts", "manage_company_social_links", "read_company_profiles"
+    ],
     hierarchy: 2,
     description: "Recruiter"
   },
   admin: {
-    permissions: ["read_jobs", "create_job", "update_job", "change_job_status", "manage_candidates", "manage_users", "manage_roles", "view_audit"],
+    permissions: [
+      // Jobs
+      "read_jobs", "create_job", "update_job", "change_job_status", "manage_candidates", "delete_job",
+      // Applications
+      "view_applications", "update_application_status", "add_application_notes", 
+      "view_application_stats", "delete_application",
+      // Messages
+      "send_message", "read_messages", "manage_own_messages", "manage_all_messages",
+      // Company
+      "create_company_profile", "update_company_profile", "delete_company_profile",
+      "view_company_stats", "manage_company_contacts", "manage_company_social_links",
+      "read_company_profiles", "manage_all_company_profiles",
+      // Admin
+      "manage_users", "manage_roles", "view_audit", "manage_system"
+    ],
     hierarchy: 3,
     description: "Administrator"
   }
