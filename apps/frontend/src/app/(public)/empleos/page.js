@@ -174,9 +174,10 @@ export default function Empleos() {
             </div>
             <p style={{ fontSize: '13px', fontWeight: '600', color: '#374151', marginBottom: '12px' }}>Categoría</p>
             {['Tecnología', 'Administración', 'ventas'].map(cat => (
-              <label key={cat} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px', cursor: 'pointer', fontSize: '14px', color: '#6B7280' }}>
+              <label key={cat} htmlFor={`cat-${cat}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px', cursor: 'pointer', fontSize: '14px', color: '#6B7280' }}>
                 <input
                   type="checkbox"
+                  id={`cat-${cat}`}
                   checked={categoriaSeleccionada === cat}
                   onChange={() => setCategoriaSeleccionada(categoriaSeleccionada === cat ? '' : cat)}
                   style={{ cursor: 'pointer' }}

@@ -8,12 +8,13 @@
 
 /* eslint-disable jsx-a11y/label-has-associated-control, jsx-a11y/no-noninteractive-element-to-interactive-role */
 
+import { useRef, useEffect } from 'react';
+import { useFocusManagement } from '@/hooks/useFocusManagement';
+import Image from 'next/image';
+
 // ============================================================================
 // EJEMPLO 1: Modal con Navegación de Teclado
 // ============================================================================
-
-import { useRef, useEffect } from 'react';
-import { useFocusManagement } from '@/hooks/useFocusManagement';
 
 export function ModalExample() {
   const { setFocus, getRef, focusNext, focusPrevious } = useFocusManagement(0);
@@ -33,9 +34,14 @@ export function ModalExample() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [focusNext, focusPrevious]);
 
+  useEffect(() => {
+    // Manejar foco inicial de forma controlada
+    setFocus(0);
+  }, [setFocus]);
+
   return (
     <div ref={modalRef} role="dialog">
-      <button ref={getRef(0)} autoFocus>Aceptar</button>
+      <button ref={getRef(0)}>Aceptar</button>
       <button ref={getRef(1)}>Cancelar</button>
       <button ref={getRef(2)}>Más opciones</button>
     </div>
@@ -68,7 +74,6 @@ export function FormExample() {
           id="email"
           type="email"
           placeholder="tu@email.com"
-          autoFocus
         />
       </div>
       <div>
@@ -133,7 +138,7 @@ export function ContextMenuExample() {
   return (
     <ul ref={menuRef} role="menu">
       <li role="menuitem">
-        <button ref={getRef(0)} autoFocus>Editar</button>
+        <button ref={getRef(0)}>Editar</button>
       </li>
       <li role="menuitem">
         <button ref={getRef(1)}>Copiar</button>
@@ -176,7 +181,7 @@ export function TabsExample() {
   return (
     <div ref={tabsRef}>
       <div role="tablist">
-        <button ref={getRef(0)} role="tab" autoFocus>Tab 1</button>
+        <button ref={getRef(0)} role="tab">Tab 1</button>
         <button ref={getRef(1)} role="tab">Tab 2</button>
         <button ref={getRef(2)} role="tab">Tab 3</button>
       </div>
@@ -218,15 +223,22 @@ export function CarouselExample() {
   return (
     <div ref={carouselRef}>
       {[0, 1, 2, 3, 4].map((index) => (
-        <img
-          key={index}
+        <div 
+          key={index} 
+          style={{ position: 'relative', width: '200px', height: '200px', display: 'inline-block' }}
           ref={getRef(index)}
-          src={`/image-${index}.jpg`}
-          alt={`Imagen ${index + 1}`}
           data-index={index}
           tabIndex={index === 0 ? 0 : -1}
           role="button"
-        />
+          aria-label={`Imagen ${index + 1}`}
+        >
+          <Image
+            src={`/image-${index}.jpg`}
+            alt={`Imagen ${index + 1}`}
+            fill
+            style={{ objectFit: 'cover' }}
+          />
+        </div>
       ))}
     </div>
   );
@@ -267,7 +279,6 @@ export function SearchExample() {
           // Simular búsqueda
           setResults(['Resultado 1', 'Resultado 2', 'Resultado 3']);
         }}
-        autoFocus
       />
       <ul>
         {results.map((result, index) => (
@@ -288,7 +299,7 @@ export function SearchExample() {
  * 1. SIEMPRE incluye el hook al principio del componente
  * 2. Usa getRef(index) para asignar referencias a elementos interactivos
  * 3. Asegúrate de que los índices sean secuenciales (0, 1, 2, ...)
- * 4. El primer elemento debe tener autoFocus cuando sea posible
+ * 4. Evita el uso de autoFocus; usa setFocus(index) en useEffect para control fino
  * 5. Limpia los listeners de eventos en el cleanup de useEffect
  * 6. Incluye aria-label y data-testid para accesibilidad y testing
  * 7. Usa preventDefault() cuando manejes eventos de teclado personalizados

@@ -384,7 +384,7 @@ export default function ContactoPage() {
                 <textarea 
                   id="mensaje" 
                   name="mensaje"
-                  rows="5" 
+                  rows={5} 
                   value={formData.mensaje}
                   onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
