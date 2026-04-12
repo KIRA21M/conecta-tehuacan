@@ -9,8 +9,10 @@ import { Button } from '@/components/ui/Button';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { useAuth } from '@/contexts/AuthContext';
+import { authAPI } from '@/services/api';
 
 export default function LoginPage() {
+    const router = useRouter();
     const [values, setValues] = useState({ email: '', password: '' });
     const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
     const [touched, setTouched] = useState<{ email?: boolean; password?: boolean }>({});

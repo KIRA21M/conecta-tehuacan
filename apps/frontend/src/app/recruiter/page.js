@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth, useView } from '@/contexts';
 import RecruiterSidebar from '@/components/layout/RecruiterSidebar';
 import styles from './recruiter.module.css';
 

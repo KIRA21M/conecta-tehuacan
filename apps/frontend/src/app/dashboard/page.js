@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth, useView } from '@/contexts';
 import CandidateSidebar from '@/components/layout/CandidateSidebar';
 import ProfilePage from '@/components/dashboard/ProfilePage';
 import ApplicationsPage from '@/components/dashboard/ApplicationsPage';

@@ -8,8 +8,9 @@ import { Button } from '@/components/ui/Button';
 import { authAPI } from '@/services/api';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { Suspense } from 'react';
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
     const [values, setValues] = useState({ password: '', confirmPassword: '' });
     const [errors, setErrors] = useState<{ password?: string; confirmPassword?: string }>({});
     const [touched, setTouched] = useState<{ password?: boolean; confirmPassword?: boolean }>({});
@@ -227,4 +228,12 @@ export default function ResetPasswordPage() {
             <Footer />
         </div>
     );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<div>Cargando...</div>}>
+      <ResetPasswordContent />
+    </Suspense>
+  );
 }
