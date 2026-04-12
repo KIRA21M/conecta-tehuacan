@@ -9,6 +9,9 @@ concurrency:
   group: staging-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   backend:
     name: Backend — Build & Validate
@@ -28,6 +31,7 @@ jobs:
       JWT_ISSUER: conecta-tehuacan
       JWT_AUDIENCE: conecta-app
       CORS_ORIGIN: http://localhost:5173
+      # DB apunta a valores dummy — no se conecta en CI, solo valida imports
       DB_HOST: localhost
       DB_PORT: 3306
       DB_NAME: conecta_db
