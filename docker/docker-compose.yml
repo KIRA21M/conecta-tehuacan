@@ -23,13 +23,15 @@ services:
       retries: 10
 
   backend:
-    image: node:18-alpine
+    build:
+      context: ../apps/backend
+      dockerfile: Dockerfile
     container_name: conecta-backend
     working_dir: /app
     volumes:
       - ../apps/backend:/app
-      - conecta-backend-node_modules:/app/node_modules
-    command: ["sh", "-c", "npm install && npm start"]
+      - /app/node_modules
+    command: ["sh", "-c", "npm install && npm run dev"]
     ports:
       - "3001:3001"
     environment:
@@ -54,17 +56,19 @@ services:
       - conecta-network
 
   frontend:
-    image: node:18-alpine
+    build:
+      context: ../apps/frontend
+      dockerfile: Dockerfile
     container_name: conecta-frontend
     working_dir: /app
     volumes:
       - ../apps/frontend:/app
-      - conecta-frontend-node_modules:/app/node_modules
+      - /app/node_modules
     command: ["sh", "-c", "npm install && npm run dev"]
     ports:
       - "3000:3000"
     environment:
-      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3000/api}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001/api}
       NEXT_PUBLIC_APP_ENV: ${NEXT_PUBLIC_APP_ENV:-development}
     depends_on:
       - backend

@@ -50,7 +50,9 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: npm
-          cache-dependency-path: apps/backend/package-lock.json
+          cache-dependency-path: |
+            apps/backend/package-lock.json
+            package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -83,7 +85,9 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: npm
-          cache-dependency-path: apps/frontend/package-lock.json
+          cache-dependency-path: |
+            apps/frontend/package-lock.json
+            package-lock.json
 
       - name: Install dependencies
         run: npm ci
