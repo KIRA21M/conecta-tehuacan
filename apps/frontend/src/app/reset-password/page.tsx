@@ -6,6 +6,8 @@ import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { authAPI } from '@/services/api';
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
 
 export default function ResetPasswordPage() {
     const [values, setValues] = useState({ password: '', confirmPassword: '' });

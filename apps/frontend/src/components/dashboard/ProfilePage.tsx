@@ -75,7 +75,7 @@ export default function ProfilePage() {
       </a>
       <h1>Mi Perfil</h1>
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-        <form id="profile-form" onSubmit={handleSubmit} role="form" aria-labelledby="profile-heading">
+        <form id="profile-form" onSubmit={handleSubmit} aria-labelledby="profile-heading">
           <div style={{ marginBottom: '15px' }}>
             <label htmlFor="full_name" style={{ display: 'block', marginBottom: '5px' }}>
               Nombre Completo
@@ -133,6 +133,7 @@ export default function ProfilePage() {
             <input
               type="text"
               id="role"
+              name="role"
               value={user.role}
               disabled
               aria-describedby="role_help"

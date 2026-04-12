@@ -121,7 +121,6 @@ export default function FavoritesPage() {
                 boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
                 position: 'relative',
               }}
-              tabIndex={0}
               aria-label={`Vacante favorita: ${job.title} en ${job.company_name}, ${job.location}, ${job.work_mode}, ${job.employment_type}`}
             >
               <button
