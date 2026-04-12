@@ -33,6 +33,7 @@ jobs:
         working-directory: apps/frontend
         run: |
           npm install -g @lhci/cli@0.12.0
-          lhci autorun --collect.startServerCommand="npm start" --collect.url="http://localhost:3000" --upload.target=temporary-public-storage
+          lhci autorun --config=./.lighthouserc.json --upload.target=temporary-public-storage
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_OPTIONS: "--max-old-space-size=4096"

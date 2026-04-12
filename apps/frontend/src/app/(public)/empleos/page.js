@@ -1,5 +1,3 @@
-export default function Empleos() {
-  return <h1>Aquí va Explorar Empleos</h1>;
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -49,7 +47,7 @@ function JobCard({ empleo, index }) {
 
     const timer = setTimeout(() => setVisible(true), prefersReducedMotion ? 0 : index * 150);
     return () => clearTimeout(timer);
-  }, [index]);
+  }, [index, prefersReducedMotion]);
 
   return (
     <div style={{
@@ -176,9 +174,10 @@ export default function Empleos() {
             </div>
             <p style={{ fontSize: '13px', fontWeight: '600', color: '#374151', marginBottom: '12px' }}>Categoría</p>
             {['Tecnología', 'Administración', 'ventas'].map(cat => (
-              <label key={cat} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px', cursor: 'pointer', fontSize: '14px', color: '#6B7280' }}>
+              <label key={cat} htmlFor={`cat-${cat}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px', cursor: 'pointer', fontSize: '14px', color: '#6B7280' }}>
                 <input
                   type="checkbox"
+                  id={`cat-${cat}`}
                   checked={categoriaSeleccionada === cat}
                   onChange={() => setCategoriaSeleccionada(categoriaSeleccionada === cat ? '' : cat)}
                   style={{ cursor: 'pointer' }}
@@ -226,5 +225,4 @@ export default function Empleos() {
       </footer>
     </div>
   );
->>>>>>> c7faa53 (feat: pulido final con soporte motion-safe en login, nosotros y empleos)
 }
