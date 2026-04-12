@@ -1,5 +1,3 @@
-export default function Empleos() {
-  return <h1>Aquí va Explorar Empleos</h1>;
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -49,7 +47,7 @@ function JobCard({ empleo, index }) {
 
     const timer = setTimeout(() => setVisible(true), prefersReducedMotion ? 0 : index * 150);
     return () => clearTimeout(timer);
-  }, [index]);
+  }, [index, prefersReducedMotion]);
 
   return (
     <div style={{
@@ -226,5 +224,4 @@ export default function Empleos() {
       </footer>
     </div>
   );
->>>>>>> c7faa53 (feat: pulido final con soporte motion-safe en login, nosotros y empleos)
 }
