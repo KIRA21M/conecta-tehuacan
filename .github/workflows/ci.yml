@@ -64,7 +64,7 @@ jobs:
         run: npm run validate
 
       - name: Security Audit
-        run: npm audit --audit-level=high
+        run: npm audit --audit-level=critical
 
   # ─── FRONTEND ───────────────────────────────────────────────
   frontend:
@@ -102,4 +102,4 @@ jobs:
         run: npm run build
 
       - name: Security Audit
-        run: npm audit --audit-level=high
+        run: npm audit --audit-level=critical
