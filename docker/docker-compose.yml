@@ -1,34 +1,99 @@
 services:
+  mysql:
+    image: mysql:8.0
+    container_name: conecta-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: America/Mexico_City
+    ports:
+      - "3307:3306"
+    volumes:
+      - conecta-mysql-data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - conecta-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
   backend:
-    image: node:18
+    build:
+      context: ../apps/backend
+      dockerfile: Dockerfile
     container_name: conecta-backend
     working_dir: /app
     volumes:
       - ../apps/backend:/app
-    command: sh -c "npm install && npm start"
+      - /app/node_modules
+    command: ["sh", "-c", "npm install && npm run dev"]
     ports:
-      - "3000:3000"
+      - "3001:3001"
     environment:
-      - NODE_ENV=development
-      - PORT=3000
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: 3001
+      CORS_ORIGIN: ${CORS_ORIGIN}
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: ${MYSQL_DATABASE}
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-15m}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      JWT_REFRESH_EXPIRES_IN: ${JWT_REFRESH_EXPIRES_IN:-7d}
+      JWT_ISSUER: ${JWT_ISSUER:-conecta-tehuacan}
+      JWT_AUDIENCE: ${JWT_AUDIENCE:-conecta-app}
+    depends_on:
+      mysql:
+        condition: service_healthy
     networks:
       - conecta-network
 
   frontend:
-    image: node:18
+    build:
+      context: ../apps/frontend
+      dockerfile: Dockerfile
     container_name: conecta-frontend
     working_dir: /app
     volumes:
       - ../apps/frontend:/app
-    command: sh -c "npm install && npm run dev -- --host"
+      - /app/node_modules
+    command: ["sh", "-c", "npm install && npm run dev"]
     ports:
-      - "5173:5173"
+      - "3000:3000"
     environment:
-      - VITE_API_URL=http://localhost:3000
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001/api}
+      NEXT_PUBLIC_APP_ENV: ${NEXT_PUBLIC_APP_ENV:-development}
     depends_on:
       - backend
     networks:
       - conecta-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: conecta-phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 0
+    depends_on:
+      - mysql
+    networks:
+      - conecta-network
+
+volumes:
+  conecta-mysql-data:
+  conecta-backend-node_modules:
+  conecta-frontend-node_modules:
 
 networks:
   conecta-network:

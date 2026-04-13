@@ -1,0 +1,98 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches:
+      - develop
+
+concurrency:
+  group: staging-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  backend:
+    name: Backend — Build & Validate
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: apps/backend
+
+    env:
+      NODE_ENV: test
+      PORT: 3000
+      JWT_SECRET: ci_access_secret_dummy
+      JWT_REFRESH_SECRET: ci_refresh_secret_dummy
+      JWT_EXPIRES_IN: 15m
+      JWT_REFRESH_EXPIRES_IN: 7d
+      JWT_ISSUER: conecta-tehuacan
+      JWT_AUDIENCE: conecta-app
+      CORS_ORIGIN: http://localhost:5173
+      # DB apunta a valores dummy — no se conecta en CI, solo valida imports
+      DB_HOST: localhost
+      DB_PORT: 3306
+      DB_NAME: conecta_db
+      DB_USER: conecta_user
+      DB_PASSWORD: conecta_pass
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: |
+            apps/backend/package-lock.json
+            package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate app structure
+        run: npm run validate
+
+      - name: Security Audit
+        run: npm audit --audit-level=high
+
+      - name: Build Docker Image
+        run: docker build -t conecta-backend-staging .
+
+  frontend:
+    name: Frontend — Build & Artifact
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: apps/frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: |
+            apps/frontend/package-lock.json
+            package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint --if-present
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build
+          path: apps/frontend/.next

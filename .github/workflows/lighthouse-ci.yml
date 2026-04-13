@@ -1,0 +1,39 @@
+name: Lighthouse CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  lhci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Actualizado a 20 para mejor compatibilidad con LHCI y node24 runner
+
+      - name: Install frontend dependencies
+        working-directory: apps/frontend
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: apps/frontend
+        run: npm run build
+
+      - name: Run LHCI
+        working-directory: apps/frontend
+        run: |
+          npm install -g @lhci/cli@0.12.0
+          lhci autorun --config=./.lighthouserc.json --upload.target=temporary-public-storage
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_OPTIONS: "--max-old-space-size=4096"

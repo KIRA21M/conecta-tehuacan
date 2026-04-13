@@ -1,22 +1,105 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  build:
+  # ─── BACKEND ────────────────────────────────────────────────
+  backend:
+    name: Backend (Node ${{ matrix.node }})
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        node: [18, 20]
+
+    defaults:
+      run:
+        working-directory: apps/backend
+
+    env:
+      NODE_ENV: test
+      PORT: 3000
+      JWT_SECRET: ci_access_secret_dummy
+      JWT_REFRESH_SECRET: ci_refresh_secret_dummy
+      JWT_EXPIRES_IN: 15m
+      JWT_REFRESH_EXPIRES_IN: 7d
+      JWT_ISSUER: conecta-tehuacan
+      JWT_AUDIENCE: conecta-app
+      CORS_ORIGIN: http://localhost:5173
+      # DB apunta a valores dummy — no se conecta en CI, solo valida imports
+      DB_HOST: localhost
+      DB_PORT: 3306
+      DB_NAME: conecta_db
+      DB_USER: conecta_user
+      DB_PASSWORD: conecta_pass
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Backend build
-        working-directory: apps/backend
-        run: |
-          npm install
-          node src/index.js & sleep 5
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: |
+            apps/backend/package-lock.json
+            package-lock.json
 
-      - name: Frontend build
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate app structure
+        run: npm run validate
+
+      - name: Security Audit
+        run: npm audit --audit-level=critical
+
+  # ─── FRONTEND ───────────────────────────────────────────────
+  frontend:
+    name: Frontend (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        node: [18, 20]
+
+    defaults:
+      run:
         working-directory: apps/frontend
-        run: |
-          npm install
-          npm run dev -- --host & sleep 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: |
+            apps/frontend/package-lock.json
+            package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Lint
+        run: npm run lint --if-present
+
+      - name: Run Build
+        run: npm run build
+
+      - name: Security Audit
+        run: npm audit --audit-level=critical

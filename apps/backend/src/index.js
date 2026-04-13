@@ -1,11 +1,4 @@
-const express = require("express");
-const app = express();
+const app = require("./app");
 
-app.get("/", (req, res) => {
-  res.send("Backend OK");
-});
-
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log("Backend corriendo en puerto " + PORT);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Backend corriendo en puerto ${PORT}`));
