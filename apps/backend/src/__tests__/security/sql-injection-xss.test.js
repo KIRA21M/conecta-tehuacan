@@ -36,12 +36,7 @@ describe('Security Middleware - Injection Protection', () => {
       expect(response.status).toBe(400);
     });
 
-    it('debe sanitizar entradas en el body para prevenir inyecciones básicas', async () => {
-      db.query
-        .mockResolvedValueOnce([[{ id: 10 }]])
-        .mockResolvedValueOnce([[]])
-        .mockResolvedValueOnce([{ insertId: 1 }]);
-
+    it('debe bloquear entradas en el body que contengan patrones de inyección', async () => {
       const response = await request(app)
         .post('/api/applications')
         .set('Authorization', 'Bearer valid_token')
@@ -50,17 +45,13 @@ describe('Security Middleware - Injection Protection', () => {
           cover_letter: "Malicious note'); DROP TABLE users; --"
         });
 
-      expect(response.status).toBe(201);
+      // El middleware de protección detecta el patrón DROP TABLE y bloquea con 400
+      expect(response.status).toBe(400);
     });
   });
 
   describe('XSS Protection', () => {
-    it('debe sanitizar tags HTML en la entrada para prevenir XSS', async () => {
-      db.query
-        .mockResolvedValueOnce([[{ id: 10 }]])
-        .mockResolvedValueOnce([[]])
-        .mockResolvedValueOnce([{ insertId: 1 }]);
-
+    it('debe bloquear tags HTML sospechosos para prevenir XSS', async () => {
       const response = await request(app)
         .post('/api/applications')
         .set('Authorization', 'Bearer valid_token')
@@ -69,7 +60,8 @@ describe('Security Middleware - Injection Protection', () => {
           cover_letter: "<script>alert('xss')</script>Hola"
         });
 
-      expect(response.status).toBe(201);
+      // El middleware de protección detecta <script> y bloquea con 400
+      expect(response.status).toBe(400);
     });
   });
 });
