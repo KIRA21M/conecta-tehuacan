@@ -126,7 +126,6 @@ export default function ApplicationsPage() {
                 backgroundColor: 'white',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
               }}
-              tabIndex={0}
               aria-label={`Postulación a ${app.jobTitle} en ${app.company}, estado ${getStatusText(app.status)}, aplicado el ${new Date(app.appliedDate).toLocaleDateString('es-ES')}`}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>

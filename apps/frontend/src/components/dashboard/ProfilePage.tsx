@@ -75,27 +75,28 @@ export default function ProfilePage() {
       </a>
       <h1>Mi Perfil</h1>
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-        <form id="profile-form" onSubmit={handleSubmit} role="form" aria-labelledby="profile-heading">
+        <form id="profile-form" onSubmit={handleSubmit} aria-labelledby="profile-heading">
           <div style={{ marginBottom: '15px' }}>
             <label htmlFor="full_name" style={{ display: 'block', marginBottom: '5px' }}>
               Nombre Completo
+              <input
+                type="text"
+                id="full_name"
+                name="full_name"
+                value={formData.full_name}
+                onChange={handleChange}
+                disabled={!isEditing}
+                aria-describedby="full_name_help"
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  border: '1px solid #ccc',
+                  borderRadius: '4px',
+                  fontSize: '16px',
+                  marginTop: '5px'
+                }}
+              />
             </label>
-            <input
-              type="text"
-              id="full_name"
-              name="full_name"
-              value={formData.full_name}
-              onChange={handleChange}
-              disabled={!isEditing}
-              aria-describedby="full_name_help"
-              style={{
-                width: '100%',
-                padding: '8px',
-                border: '1px solid #ccc',
-                borderRadius: '4px',
-                fontSize: '16px',
-              }}
-            />
             <span id="full_name_help" style={{ display: 'none' }}>
               Ingresa tu nombre completo
             </span>
@@ -104,23 +105,24 @@ export default function ProfilePage() {
           <div style={{ marginBottom: '15px' }}>
             <label htmlFor="email" style={{ display: 'block', marginBottom: '5px' }}>
               Correo Electrónico
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                disabled={!isEditing}
+                aria-describedby="email_help"
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  border: '1px solid #ccc',
+                  borderRadius: '4px',
+                  fontSize: '16px',
+                  marginTop: '5px'
+                }}
+              />
             </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              disabled={!isEditing}
-              aria-describedby="email_help"
-              style={{
-                width: '100%',
-                padding: '8px',
-                border: '1px solid #ccc',
-                borderRadius: '4px',
-                fontSize: '16px',
-              }}
-            />
             <span id="email_help" style={{ display: 'none' }}>
               Ingresa tu correo electrónico
             </span>
@@ -129,22 +131,24 @@ export default function ProfilePage() {
           <div style={{ marginBottom: '15px' }}>
             <label htmlFor="role" style={{ display: 'block', marginBottom: '5px' }}>
               Rol
+              <input
+                type="text"
+                id="role"
+                name="role"
+                value={user.role}
+                disabled
+                aria-describedby="role_help"
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  border: '1px solid #ccc',
+                  borderRadius: '4px',
+                  fontSize: '16px',
+                  backgroundColor: '#f5f5f5',
+                  marginTop: '5px'
+                }}
+              />
             </label>
-            <input
-              type="text"
-              id="role"
-              value={user.role}
-              disabled
-              aria-describedby="role_help"
-              style={{
-                width: '100%',
-                padding: '8px',
-                border: '1px solid #ccc',
-                borderRadius: '4px',
-                fontSize: '16px',
-                backgroundColor: '#f5f5f5',
-              }}
-            />
             <span id="role_help" style={{ display: 'none' }}>
               Tu rol en la plataforma, no editable
             </span>
