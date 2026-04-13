@@ -66,15 +66,18 @@ function optionalAuth(req, res, next) {
 /**
  * Middleware: Require specific role(s)
  * Used with authRequired to enforce role-based access control
- * @param {...string} roles - Allowed role names
+ * @param {...string|string[]} roles - Allowed role names (as individual args or an array)
  */
 function requireRole(...roles) {
+  // Flatten roles in case an array was passed as the first argument
+  const allowedRoles = Array.isArray(roles[0]) ? roles[0] : roles;
+
   return (req, res, next) => {
     if (!req.user) {
       return next(new AppError("No autorizado", 401, [{ reason: "unauthenticated" }]));
     }
 
-    if (!roles.includes(req.user.role)) {
+    if (!allowedRoles.includes(req.user.role)) {
       return next(new AppError("Acceso denegado", 403, [{ reason: "forbidden" }]));
     }
 
